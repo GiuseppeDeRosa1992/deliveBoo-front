@@ -16,7 +16,7 @@ export default{
     </div>
     
     <div class="navbar col-lg-9">
-    <router-link class="navbar-link fs-4" to="/restaurant">Ristoranti</router-link>
+      <router-link class="navbar-link fs-4" to="/restaurant">Ristoranti</router-link>
     </div>
     
     <div class="register col-lg-2 d-flex gap-3 align-items-center">

@@ -85,7 +85,7 @@ export default{
     
     <!-- Card Container con cards -->
     <div class="container">
-      <div class="flex row my-3">
+      <div class="flex row ">
         <template v-if="filteredRestaurants.length > 0">
           <div class="card col-2 p-2 m-3" v-for="restaurant in filteredRestaurants">
           <template v-if="!restaurant.image.startsWith('http')">
