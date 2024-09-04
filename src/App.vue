@@ -45,20 +45,48 @@ export default{
   <div>
     <h1>Ristoranti</h1>
 
-    <input type="text" v-model="ricercaRistorante" placeholder="Cerca un ristorante..." />
+    <input class="search" type="text" v-model="ricercaRistorante" placeholder="Cerca un ristorante..." />
 
     <p v-if="filteredRestaurants.length === 0">Nessun ristorante trovato</p>
 
-    <ul v-if="filteredRestaurants.length > 0">
+    <!-- <ul v-if="filteredRestaurants.length > 0">
       <li v-for="restaurant in filteredRestaurants" :key="restaurant.id">
         {{ restaurant.name }}
+        {{ restaurant.image }}
+        {{ restaurant.p_iva }}
+        {{ restaurant.address }}
       </li>
-    </ul>
+    </ul> -->
+    <div class="cont-flex">
+    <template v-if="filteredRestaurants.length > 0">
+      <div class="card" v-for="restaurant in filteredRestaurants">
+        <h2 class="title-card">{{ restaurant.name }}</h2>
+        <!-- <p>{{ restaurant.image }}</p> -->
+         <img :src="restaurant.image" alt="">
+        <p class="info-card">P. IVA: {{ restaurant.p_iva }}</p>
+        <p class="info-card">Indirizzo: {{ restaurant.address }}</p>
+      </div>
+    </template>
 
+  </div>
     <p v-if="error">{{ error }}</p>
   </div>
 </template>
 
 <style scoped>
+.cont-flex {
+  display: flex;
+  width: 1200px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
 
+.search {
+  margin: 20px 0 50px 0;
+  width: 250px;
+}
+
+.info-card {
+  margin: 10px 0 0 0;
+}
 </style>
