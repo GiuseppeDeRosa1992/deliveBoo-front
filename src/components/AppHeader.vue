@@ -8,7 +8,7 @@ export default{
 
 <template>
 
-  <header class="container-fluid d-flex align-items-center shadow  mb-4 py-2 mx-0">
+  <header class="container-fluid d-flex align-items-center shadow py-2 mx-0">
 
     <div class="logo col-lg-1 d-flex">
       <img src="/public/logo-deliveboo-no-scritta.png" alt="">
@@ -50,6 +50,7 @@ header {
 
 .navbar-link {
   color: white;
+  cursor: pointer;
 }
 
 .navbar-link:hover {
