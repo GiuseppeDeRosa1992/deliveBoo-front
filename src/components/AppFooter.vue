@@ -13,7 +13,15 @@ export default {
 <template>
   <footer class="  footer bg-dark text-white py-4">
     <div class="container-fluid">
+
+
       <div class="row text-center text-md-start">
+
+        <div class="col-md-1">
+
+        </div>
+
+
         <!-- Logo e descrizione -->
         <div class="col-md-2 mb-4">
           <img src="../assets/logo-deliveboo-no-scritta.png" alt="DeliveBoo Logo" class="img-fluid mb-2"
@@ -24,7 +32,7 @@ export default {
         </div>
 
         <!-- Link navigazione -->
-        <div class=" quickLinks col-md-3 mb-4">
+        <div class=" quickLinks col-md-2 mb-4">
           <h5>Scopri DeliveBoo</h5>
           <ul class="list-unstyled">
             <li><a href="#" class="">Chi siamo</a></li>
@@ -36,7 +44,7 @@ export default {
           </ul>
         </div>
 
-        <div class=" quickLinks col-md-3 mb-4">
+        <div class=" quickLinks col-md-2 mb-4">
           <h5>Note Legali</h5>
           <ul class="list-unstyled">
             <li><a href="#" class="">Termini & Condizioni</a></li>
@@ -61,6 +69,10 @@ export default {
           </a>
         </div>
 
+        <div class="col-md-1">
+
+        </div>
+
 
         <!-- App -->
         <div class="col-md-2 mb-4 ">
@@ -74,6 +86,12 @@ export default {
             </a>
           </div>
         </div>
+
+        <div class="col-md-1">
+
+        </div>
+
+
       </div>
     </div>
 
