@@ -7,14 +7,16 @@ export default{
   data(){
     return {
       restaurants:[],
+      types:[],
       error: null,
       ricercaRistorante:'',
       base_url: 'http://127.0.0.1:8000',
+      filtroType: [],
+      tipoSelezionato: null
     }
   },
  mounted(){
     this.chiamataRestaurant();
-  
 },
 
   methods:{
@@ -28,12 +30,20 @@ export default{
           this.error = 'Errore nel caricamento dei ristoranti'; 
         });
     },
-    filtroType(typeId){
-      this.tipoSelezionato = typeId;
-      if(typeId== null){
-        this.filtroType=this.restaurants
-      }else{
-        this.filtroType = this.restaurants.filter(restaurant=>restaurant.type.includes(typeId))
+    extractTypes() {
+      const typesSet = new Set();
+      this.restaurants.forEach(restaurant => {
+        if (type.name) {
+          typesSet.add(type.name);
+        }
+      });
+      this.types = Array.from(typesSet);
+    },
+    filtroType(typeId) {
+      if (typeId === "") {
+        this.filtroType = this.restaurants;
+      } else {
+        this.filtroType = this.restaurants.filter(restaurant => restaurant.type === typeId);
       }
     }
   },
@@ -58,12 +68,11 @@ export default{
     <input class="search" type="text" v-model="ricercaRistorante" placeholder="Cerca un ristorante..." />
 
     <div class="filter-section">
-        <button 
-            v-for="type in types"  
-            @click="filtroType(type.name)">
-            tipo        
-        </button>
-      </div>
+        <select class="form-select" @change="filtroType($event.target.value)"> 
+            <option selected>Scegli cosa vuoi mangiare</option>
+            <option v-for="type in types" :key="type.name" :value="type.name"><{{type.name}}</option>
+        </select>
+    </div>
 
     <p v-if="filteredRestaurants.length === 0">Nessun ristorante trovato</p>
     <div class="container flex row">
