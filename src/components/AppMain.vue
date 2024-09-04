@@ -60,9 +60,12 @@ export default{
 </script>
 
 <template>
-  <div class=" text-center light-orange">
+  <div class=" text-center">
     <div class="container ">
+      
+      
       <div class="flex row justify-content-center align-items-center">
+      <img class="logo my-3" src="../assets/logo-deliveboo.png" alt="">
       <h1 class="">Benvenuto su Deliveboo</h1>
       <h3>Il sapore che ti raggiunge</h3>
         
@@ -87,7 +90,7 @@ export default{
     <div class="container">
       <div class="flex row my-3">
         <template v-if="filteredRestaurants.length > 0">
-          <div class="card col-2 p-2 m-3" v-for="restaurant in filteredRestaurants">
+          <div class="card light-grey col-2 p-2 m-3" v-for="restaurant in filteredRestaurants">
           <template v-if="!restaurant.image.startsWith('http')">
             <img class="card-img-top" :src="base_url + '/storage/' + restaurant.image" alt="">
           </template>
@@ -105,7 +108,9 @@ export default{
 </template>
 
 <style scoped>
-
+.logo {
+  width: 25%;
+}
 </style>
 
 
