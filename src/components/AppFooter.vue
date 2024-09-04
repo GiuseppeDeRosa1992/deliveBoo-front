@@ -15,7 +15,7 @@ export default {
     <div class="container-fluid">
       <div class="row text-center text-md-start">
         <!-- Logo e descrizione -->
-        <div class="col-md-3 mb-4">
+        <div class="col-md-2 mb-4">
           <img src="../assets/logo-deliveboo-no-scritta.png" alt="DeliveBoo Logo" class="img-fluid mb-2"
             style="max-width: 150px;">
           <p class="small">
@@ -48,7 +48,7 @@ export default {
         </div>
 
         <!-- Social Media -->
-        <div class=" social col-md-3 mb-4">
+        <div class=" social col-md-1 mb-4">
           <h5>Follow Us</h5>
           <a href="#" class=" me-3">
             <i class="fab fa-facebook fa-lg"></i>
@@ -63,7 +63,7 @@ export default {
 
 
         <!-- App -->
-        <div class="col-md-3 mb-4">
+        <div class="col-md-2 mb-4 ">
           <h5>Download Our App</h5>
           <div class="d-flex flex-column">
             <a href="" class="btn mb-3 mt-1" style="background-color: #D35400; color: #FFFFFF;">
