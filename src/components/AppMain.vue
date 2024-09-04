@@ -27,6 +27,14 @@ export default{
           console.error('Errore nel recupero dei dati:', error);
           this.error = 'Errore nel caricamento dei ristoranti'; 
         });
+    },
+    filtroType(typeId){
+      this.tipoSelezionato = typeId;
+      if(typeId== null){
+        this.filtroType=this.restaurants
+      }else{
+        this.filtroType = this.restaurants.filter(restaurant=>restaurant.type.includes(typeId))
+      }
     }
   },
 
@@ -49,19 +57,18 @@ export default{
 
     <input class="search" type="text" v-model="ricercaRistorante" placeholder="Cerca un ristorante..." />
 
-    <p v-if="filteredRestaurants.length === 0">Nessun ristorante trovato</p>
+    <div class="filter-section">
+        <button 
+            v-for="type in types"  
+            @click="filtroType(type.name)">
+            tipo        
+        </button>
+      </div>
 
-    <!-- <ul v-if="filteredRestaurants.length > 0">
-      <li v-for="restaurant in filteredRestaurants" :key="restaurant.id">
-        {{ restaurant.name }}
-        {{ restaurant.image }}
-        {{ restaurant.p_iva }}
-        {{ restaurant.address }}
-      </li>
-    </ul> -->
-    <div class="cont-flex">
+    <p v-if="filteredRestaurants.length === 0">Nessun ristorante trovato</p>
+    <div class="container flex row">
     <template v-if="filteredRestaurants.length > 0">
-      <div class="card" v-for="restaurant in filteredRestaurants">
+      <div class="card col-2 p-2 m-3" v-for="restaurant in filteredRestaurants">
         <template v-if="!restaurant.image.startsWith('http')">
           <img class="card-img-top" :src="base_url + '/storage/' + restaurant.image" alt="">
         </template>
@@ -69,8 +76,6 @@ export default{
           <img class="card-img-top" :src="restaurant.image" alt="">
         </template>
         <h2 class="title-card">{{ restaurant.name }}</h2>
-        <!-- <p>{{ restaurant.image }}</p> -->
-        <p class="info-card">P. IVA: {{ restaurant.p_iva }}</p>
         <p class="info-card">Indirizzo: {{ restaurant.address }}</p>
       </div>
     </template>
