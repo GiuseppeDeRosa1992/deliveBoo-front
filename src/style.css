@@ -1,24 +1,36 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* dark-orange (principale):
+Pulsanti di chiamata all'azione, icone e elementi che necessitano di risalto.
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+light-orange:
+Sfondi di sezioni o hover sugli elementi interattivi.
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+oak:
+Testi di dettagli minori.
+
+black:
+Usalo per il testo principale e il contenuto.
+
+light-grey:
+Utilizzato come colore di sfondo o per testi secondari.
+
+white:
+Sondi e spazi vuoti, per dare respiro alla pagina.
+
+Consigli di utilizzo:
+Sfondo: Usa un grigio molto chiaro o bianco per mantenere leggibilità e contrasto con il testo.
+Testi: Utilizza il nero o il marrone scuro per il testo principale.
+Elementi di risalto: Usa l'arancione scuro o l'arancione chiaro per i pulsanti e gli altri elementi interattivi.
+ */
+
+.dark-orange {
+  background-color: #D35400;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.light-orange {
+  background-color: #E67E22;
 }
 
+<<<<<<< HEAD
 
 a {
   font-weight: 500;
@@ -28,22 +40,21 @@ a {
 
 a:hover {
   color: #535bf2;
+=======
+.oak {
+  color: #8C4D00;
+>>>>>>> 6f44fcb6cf8732448873a74f05c746ec3b65b4eb
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-  font-family: sans-serif;
+.black {
+  color: #2C3E50;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.light-grey {
+  color: #BDC3C7;
 }
 
+<<<<<<< HEAD
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -89,4 +100,8 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+=======
+.white {
+  background-color: #FFFFFF;
+>>>>>>> 6f44fcb6cf8732448873a74f05c746ec3b65b4eb
 }
