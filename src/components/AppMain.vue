@@ -6,65 +6,49 @@ export default {
 
   data() {
     return {
-      restaurants:[],
-      types:[
-      { id: 1, name: ' Italiano',},
-        { id: 2, name: ' Cinese',},
-        { id: 3, name: ' Giapponese',},
-        { id: 4, name: ' Vegetariano',},
-        { id: 5, name: 'Pizzeria'}
-      ],
+      restaurants: [], // Ristoranti recuperati dall'API
+      types: ['Pizzeria', 'Sushi', 'Messicano', 'Cinese', 'Italiano', 'Indiano', 'Vegano','Internazionale','SteakHouse','Fast Food','Bar e Caffetteria','Fusion','Gourmet','Pasticceria'],
+      filtraRistorante: '', // Tipo di ristorante selezionato per il filtro
+      ricercaRistorante: '', // Testo di ricerca per filtrare i ristoranti
       error: null,
-      ricercaRistorante: '',
-      base_url: 'http://127.0.0.1:8000',
-      tipoSelezionato: null
-    }
+      base_url: 'http://127.0.0.1:8000', // URL base per l'API
+    };
   },
   mounted() {
     this.chiamataRestaurant();
-},
+  },
 
   methods: {
+    // Metodo per recuperare i ristoranti dall'API
     chiamataRestaurant() {
       axios.get(`${this.base_url}/api/restaurant`)
         .then(result => {
           this.restaurants = result.data;
-          
         })
         .catch(error => {
           console.error('Errore nel recupero dei dati:', error);
           this.error = 'Errore nel caricamento dei ristoranti';
         });
     },
-    //extractTypes() {
-      //const typesSet = new Set();
-      //this.restaurants.forEach(restaurant => {
-       // if (type.name) {
-        //  typesSet.add(type.name);
-      //  }
-     // });
-      //this.types = Array.from(typesSet);
-   // },
-    filtroType(typeId) {
-      if (typeId === "") {
-        this.filtroType = this.restaurants;
-      } else {
-        this.filtroType = this.restaurants.filter(restaurant => restaurant.type === typeId);
-      }
-    }
   },
 
   computed: {
+    // Filtra i ristoranti in base alla ricerca e al tipo selezionato
     filteredRestaurants() {
       return this.restaurants.filter(restaurant => {
-        return restaurant.name.toLowerCase().includes(this.ricercaRistorante.toLowerCase());
+        const matchesSearch = restaurant.name.toLowerCase().includes(this.ricercaRistorante.toLowerCase());
+
+        // Se un tipo è selezionato, controlla se il ristorante appartiene a quel tipo
+        const matchesType = this.filtraRistorante === '' || 
+          restaurant.type.some(t => t.name === this.filtraRistorante);
+
+        return matchesSearch && matchesType;
       });
     }
   }
-}
-
-
+};
 </script>
+
 
 <template>
   <div class="text-center">
@@ -79,21 +63,20 @@ export default {
 
       <div class="row justify-content-center">
         <div class="col-12 col-md-6 col-lg-4 mb-3">
-          <input type="text" class="form-control" v-model="ricercaRistorante" id="ricercaRistorante"
+          <input type="text" class="form-control" v-model="ricercaRistorante"
             placeholder="Ricerca un ristorante specifico">
         </div>
 
-        <!-- Select attuale per filtrare Categoria del Ristorante -->
-        <div class="filter-section w-25">
-            <select class="form-select" @change="filtroType($event.target.value)"> 
-              <option selected>Scegli cosa vuoi mangiare</option>
-              <option v-for="type in types" :key="type.name" :value="type.name"><{{type.name}}</option>
-            </select>
+        <!-- Seleziona la categoria del ristorante -->
+        <div class="col-12 col-md-6 col-lg-4 mb-3">
+          <select v-model="filtraRistorante" class="form-select">
+            <option value="">Tutte le categorie</option>
+            <option v-for="type in types" :key="type" :value="type">{{ type }}</option>
+          </select>
         </div>
       </div>
 
-      <p v-if="filteredRestaurants.length === 0" class="my-3">Nessun ristorante trovato</p>
-
+      <!-- Lista dei ristoranti filtrati -->
       <div class="row justify-content-center">
         <template v-if="filteredRestaurants.length > 0">
           <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" v-for="restaurant in filteredRestaurants"
@@ -112,6 +95,7 @@ export default {
             </div>
           </div>
         </template>
+        <p v-if="filteredRestaurants.length === 0" class="my-3">Nessun ristorante trovato</p>
       </div>
 
       <p v-if="error">{{ error }}</p>
