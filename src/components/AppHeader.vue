@@ -68,7 +68,7 @@ export default {
 
 <style scoped>
 header {
-  height: 8vh;
+  height: 5rem;
   background-color: #E67E22;
 }
 
