@@ -81,8 +81,8 @@ export default {
         </div>
 
         <!-- Seleziona la categoria del ristorante -->
-        <div class="col-12 mb-4 mt-1">
-          <div v-for="(type, index) in types" :key="index" class="chip p-2 me-2"
+        <div class="col-12 mb-2 mt-1">
+          <div v-for="(type, index) in types" :key="index" class="chip p-2 me-2 mb-2"
             :class="{ 'chip-selected': filtraRistorante.includes(type) }" @click="toggleType(type)">
             {{ type }}
           </div>
@@ -109,7 +109,10 @@ export default {
             </div>
           </div>
         </template>
-        <p v-if="filteredRestaurants.length === 0" class="my-3">Nessun ristorante trovato</p>
+        <div v-if="filteredRestaurants.length === 0" class="pb-3">
+          <p class="my-3 fs-5">Purtroppo non è ancora disponibile un <br> ristorante con questa tipologia.</p>
+        </div>
+
       </div>
 
       <p v-if="error">{{ error }}</p>
@@ -195,10 +198,10 @@ export default {
   display: inline-block;
   padding: 8px 16px;
   border-radius: 16px;
-  background-color: #f1f1f1;
+  background-color: #e5e5e5;
   color: #333;
   cursor: pointer;
-  
+
 }
 
 .chip:hover {
@@ -215,5 +218,4 @@ export default {
   background-color: #E67E22;
   color: white;
 }
-
 </style>
