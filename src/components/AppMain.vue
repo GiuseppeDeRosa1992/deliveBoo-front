@@ -52,7 +52,7 @@ export default {
 
 
 <template>
-  <div class="text-center">
+  <div class="text-center cont-main">
     <div class="container">
       <div class="row justify-content-center align-items-center">
         <div class="col-12 col-md-8 col-lg-6">
@@ -107,6 +107,11 @@ export default {
 </template>
 
 <style scoped>
+.cont-main {
+  margin-top: 5rem;
+}
+
+
 .logo {
   width: 100%;
   max-width: 250px;
