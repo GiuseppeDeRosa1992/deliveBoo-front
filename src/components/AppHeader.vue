@@ -72,6 +72,7 @@ header {
   background-color: #E67E22;
   position: fixed;
   margin-top: -5rem;
+  z-index: 2;
 }
 
 .cont-header {
