@@ -11,7 +11,7 @@ export default {
 </script>
 
 <template>
-  <footer class="  footer bg-dark text-white py-4">
+  <footer class="  footer bg-dark text-white py-4 ">
     <div class="container-fluid">
 
 
@@ -32,7 +32,7 @@ export default {
         </div>
 
         <!-- Link navigazione -->
-        <div class=" quickLinks col-md-2 mb-4">
+        <div class=" quickLinks col-md-2 mb-4 text-center">
           <h5>Scopri DeliveBoo</h5>
           <ul class="list-unstyled">
             <li><a href="#" class="">Chi siamo</a></li>
@@ -44,7 +44,7 @@ export default {
           </ul>
         </div>
 
-        <div class=" quickLinks col-md-2 mb-4">
+        <div class=" quickLinks col-md-2 mb-4 text-center">
           <h5>Note Legali</h5>
           <ul class="list-unstyled">
             <li><a href="#" class="">Termini & Condizioni</a></li>
@@ -56,7 +56,7 @@ export default {
         </div>
 
         <!-- Social Media -->
-        <div class=" social col-md-1 mb-4">
+        <div class=" social col-md-2 mb-4 text-center">
           <h5>Follow Us</h5>
           <a href="#" class=" me-3">
             <i class="fab fa-facebook fa-lg"></i>
@@ -69,13 +69,11 @@ export default {
           </a>
         </div>
 
-        <div class="col-md-1">
 
-        </div>
 
 
         <!-- App -->
-        <div class="col-md-2 mb-4 ">
+        <div class="col-md-2 mb-4 text-center ">
           <h5>Download Our App</h5>
           <div class="d-flex flex-column">
             <a href="" class="btn mb-3 mt-1" style="background-color: #D35400; color: #FFFFFF;">
