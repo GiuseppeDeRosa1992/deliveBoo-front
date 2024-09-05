@@ -7,7 +7,13 @@ export default{
   data(){
     return {
       restaurants:[],
-      types:[],
+      types:[
+      { id: 1, name: ' Italiano',},
+        { id: 2, name: ' Cinese',},
+        { id: 3, name: ' Giapponese',},
+        { id: 4, name: ' Vegetariano',},
+        { id: 5, name: 'Pizzeria'}
+      ],
       error: null,
       ricercaRistorante:'',
       base_url: 'http://127.0.0.1:8000',
@@ -16,6 +22,7 @@ export default{
   },
  mounted(){
     this.chiamataRestaurant();
+    
 },
 
   methods:{
@@ -23,21 +30,22 @@ export default{
       axios.get(`${this.base_url}/api/restaurant`)
         .then(result => {
           this.restaurants = result.data;
+          
         })
         .catch(error => {
           console.error('Errore nel recupero dei dati:', error);
           this.error = 'Errore nel caricamento dei ristoranti'; 
         });
     },
-    extractTypes() {
-      const typesSet = new Set();
-      this.restaurants.forEach(restaurant => {
-        if (type.name) {
-          typesSet.add(type.name);
-        }
-      });
-      this.types = Array.from(typesSet);
-    },
+    //extractTypes() {
+      //const typesSet = new Set();
+      //this.restaurants.forEach(restaurant => {
+       // if (type.name) {
+        //  typesSet.add(type.name);
+      //  }
+     // });
+      //this.types = Array.from(typesSet);
+   // },
     filtroType(typeId) {
       if (typeId === "") {
         this.filtroType = this.restaurants;
@@ -76,8 +84,8 @@ export default{
 
         <!-- Select attuale per filtrare Categoria del Ristorante -->
         <div class="filter-section w-25">
-            <select class="form-select" @change="filtroType($event.target.value)"> 
-              <option selected>Scegli cosa vuoi mangiare</option>
+            <select class="form-select" @v-model="filtroType($event.target.value)"> 
+              <option selected> Scegli cosa vuoi mangiare</option>
               <option v-for="type in types" :key="type.name" :value="type.name"><{{type.name}}</option>
             </select>
         </div>
