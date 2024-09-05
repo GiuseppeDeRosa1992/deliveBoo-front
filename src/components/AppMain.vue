@@ -7,8 +7,8 @@ export default {
   data() {
     return {
       restaurants: [], // Ristoranti recuperati dall'API
-      types: ['Pizzeria', 'Sushi', 'Messicano', 'Cinese', 'Italiano', 'Indiano', 'Vegano','Internazionale','Steakhouse','Fast Food','Bar e Caffetteria','Fusion','Gourmet','Pasticceria'],
-      filtraRistorante: '', // Tipo di ristorante selezionato per il filtro
+      types: ['Pizzeria', 'Sushi', 'Messicano', 'Cinese', 'Italiano', 'Indiano', 'Vegano', 'Internazionale', 'Steakhouse', 'Fast Food', 'Bar e Caffetteria', 'Fusion', 'Gourmet', 'Pasticceria'],
+      filtraRistorante: [], // Cambiato in array per supportare più selezioni
       ricercaRistorante: '', // Testo di ricerca per filtrare i ristoranti
       error: null,
       base_url: 'http://127.0.0.1:8000', // URL base per l'API
@@ -33,20 +33,21 @@ export default {
   },
 
   computed: {
-    // Filtra i ristoranti in base alla ricerca e al tipo selezionato
+    // Filtra i ristoranti in base alla ricerca e ai tipi selezionati
     filteredRestaurants() {
       return this.restaurants.filter(restaurant => {
         const matchesSearch = restaurant.name.toLowerCase().includes(this.ricercaRistorante.toLowerCase());
 
-        // Se un tipo è selezionato, controlla se il ristorante appartiene a quel tipo
-        const matchesType = this.filtraRistorante === '' || 
-          restaurant.type.some(t => t.name === this.filtraRistorante);
+        // Se sono selezionati più tipi, controlla se il ristorante appartiene a uno dei tipi selezionati
+        const matchesType = this.filtraRistorante.length === 0 ||
+          restaurant.type.some(t => this.filtraRistorante.includes(t.name));
 
         return matchesSearch && matchesType;
       });
     }
   }
 };
+
 </script>
 
 
@@ -68,12 +69,14 @@ export default {
         </div>
 
         <!-- Seleziona la categoria del ristorante -->
-        <div class="col-12 col-md-6 col-lg-4 mb-3">
-          <select v-model="filtraRistorante" class="form-select">
-            <option value="">Tutte le categorie</option>
-            <option v-for="type in types" :key="type" :value="type">{{ type }}</option>
-          </select>
+        <div class="col-12 mb-3">
+          <div v-for="(type, index) in types" :key="index" class="form-check form-check-inline p-2">
+            <input type="checkbox" class="form-check-input custom-checkbox" :id="'checkbox-' + index" :value="type"
+              v-model="filtraRistorante" />
+            <label class="form-check-label custom-label" :for="'checkbox-' + index">{{ type }}</label>
+          </div>
         </div>
+
       </div>
 
       <!-- Lista dei ristoranti filtrati -->
@@ -140,5 +143,35 @@ export default {
   #ricercaRistorante {
     width: 100%;
   }
+}
+
+.custom-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  transition: all 0.3s ease-in-out;
+}
+
+.custom-checkbox:checked {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.custom-checkbox:hover {
+  border-color: #007bff;
+}
+
+.custom-label {
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.form-check-inline {
+  margin-bottom: 10px;
+}
+
+.form-check-input {
+  cursor: pointer;
 }
 </style>
