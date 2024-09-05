@@ -7,7 +7,7 @@ export default {
   data() {
     return {
       restaurants: [], // Ristoranti recuperati dall'API
-      types: ['Pizzeria', 'Sushi', 'Messicano', 'Cinese', 'Italiano', 'Indiano', 'Vegano','Internazionale','SteakHouse','Fast Food','Bar e Caffetteria','Fusion','Gourmet','Pasticceria'],
+      types: ['Pizzeria', 'Sushi', 'Messicano', 'Cinese', 'Italiano', 'Indiano', 'Vegano','Internazionale','Steakhouse','Fast Food','Bar e Caffetteria','Fusion','Gourmet','Pasticceria'],
       filtraRistorante: '', // Tipo di ristorante selezionato per il filtro
       ricercaRistorante: '', // Testo di ricerca per filtrare i ristoranti
       error: null,
