@@ -204,7 +204,7 @@ export default {
 
 }
 
-.chip:hover {
+/* .chip:hover {
   background-color: #2C3E50;
   color: white;
 }
@@ -212,7 +212,7 @@ export default {
 .chip:focus {
   background-color: #BDC3C7;
   color: #2C3E50;
-}
+} */
 
 .chip-selected {
   background-color: #E67E22;
