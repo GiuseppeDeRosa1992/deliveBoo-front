@@ -30,6 +30,18 @@ export default {
           this.error = 'Errore nel caricamento dei ristoranti';
         });
     },
+
+    toggleType(type) {
+      const index = this.filtraRistorante.indexOf(type);
+      if (index === -1) {
+        // Se non è selezionato, aggiungi la categoria
+        this.filtraRistorante.push(type);
+      } else {
+        // Se è già selezionato, rimuovi la categoria
+        this.filtraRistorante.splice(index, 1);
+      }
+    },
+
   },
 
   computed: {
@@ -69,11 +81,10 @@ export default {
         </div>
 
         <!-- Seleziona la categoria del ristorante -->
-        <div class="col-12 mb-3">
-          <div v-for="(type, index) in types" :key="index" class="form-check form-check-inline p-2">
-            <input type="checkbox" class="form-check-input custom-checkbox" :id="'checkbox-' + index" :value="type"
-              v-model="filtraRistorante" />
-            <label class="form-check-label custom-label" :for="'checkbox-' + index">{{ type }}</label>
+        <div class="col-12 mb-4 mt-1">
+          <div v-for="(type, index) in types" :key="index" class="chip p-2 me-2"
+            :class="{ 'chip-selected': filtraRistorante.includes(type) }" @click="toggleType(type)">
+            {{ type }}
           </div>
         </div>
 
@@ -179,4 +190,30 @@ export default {
 .form-check-input {
   cursor: pointer;
 }
+
+.chip {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 16px;
+  background-color: #f1f1f1;
+  color: #333;
+  cursor: pointer;
+  
+}
+
+.chip:hover {
+  background-color: #2C3E50;
+  color: white;
+}
+
+.chip:focus {
+  background-color: #BDC3C7;
+  color: #2C3E50;
+}
+
+.chip-selected {
+  background-color: #E67E22;
+  color: white;
+}
+
 </style>
