@@ -98,10 +98,6 @@ header {
   text-decoration: none;
 }
 
-.navbar-link:hover {
-  color: #2C3E50;
-}
-
 .header-hamb-menu {
   background-color: #2C3E50;
 }
