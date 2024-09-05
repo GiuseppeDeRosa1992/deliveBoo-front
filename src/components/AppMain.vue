@@ -154,17 +154,17 @@ export default {
   width: 20px;
   height: 20px;
   border-radius: 5px;
-  border: 2px solid #ccc;
+  border: 2px solid #f3aa6b;
   transition: all 0.3s ease-in-out;
 }
 
 .custom-checkbox:checked {
-  background-color: #28a745;
-  border-color: #28a745;
+  background-color: #D35400;
+  border-color: #D35400;
 }
 
 .custom-checkbox:hover {
-  border-color: #007bff;
+  border-color: #BDC3C7;
 }
 
 .custom-label {
