@@ -70,6 +70,8 @@ export default {
 header {
   height: 5rem;
   background-color: #E67E22;
+  position: fixed;
+  margin-top: -5rem;
 }
 
 .cont-header {
