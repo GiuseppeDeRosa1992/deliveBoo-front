@@ -7,7 +7,13 @@ export default {
   data() {
     return {
       restaurants:[],
-      types:[],
+      types:[
+      { id: 1, name: ' Italiano',},
+        { id: 2, name: ' Cinese',},
+        { id: 3, name: ' Giapponese',},
+        { id: 4, name: ' Vegetariano',},
+        { id: 5, name: 'Pizzeria'}
+      ],
       error: null,
       ricercaRistorante: '',
       base_url: 'http://127.0.0.1:8000',
