@@ -119,11 +119,11 @@ export default {
 }
 
 .card {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
 
 .card:hover {
+  box-shadow: 0 4px 10px rgba(252, 129, 21, 0.935);
   transform: scale(1.05);
 }
 
