@@ -58,7 +58,7 @@ export default {
         <div class="d-flex align-items-center gap-3 justify-content-end">
           <router-link class="navbar-link fs-5" to="/login">Login</router-link>
           <router-link class="fs-5 button btn shadow bg-white rounded-pill border-0 py-1 px-3"
-            to="/register">Register</router-link>
+            to="/register">Registrati</router-link>
         </div>
       </div>
     </div>
