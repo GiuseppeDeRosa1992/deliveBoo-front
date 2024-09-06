@@ -13,11 +13,11 @@ export default {
     <div class="row cont-header align-items-center">
 
       <div class="logo col-3 col-lg-1 col-md-2">
-        <img src="/public/logo-deliveboo-no-scritta.png" alt="">
+        <a class="navbar-link fs-4" to="/"><img src="/public/logo-deliveboo-no-scritta.png" alt=""></a>
       </div>
 
       <div class="navbar col-5 col-lg-9 col-md-7 d-none d-sm-block ps-3">
-        <router-link class="navbar-link fs-4" to="/">Ristoranti</router-link>
+        <a class="navbar-link fs-4" to="/">Home</a>
       </div>
 
       <!-- Navbar mobile visibile su schermi piccoli -->
@@ -35,20 +35,20 @@ export default {
           </div>
           <div class="offcanvas-body body-hamb-menu">
             <div class="border-bottom pb-4 pt-2">
-              <router-link class="navbar-link fs-4" to="/restaurant">Ristoranti</router-link>
+
             </div>
             <div class="border-bottom py-4">
               <h5 class="text-white fs-3">Profilo</h5>
-              <router-link class="navbar-link fs-5" to="/login">Login</router-link>
+              <a class="navbar-link fs-5" href="http://127.0.0.1:8000/login">Login</a>
               <div class="">
-                <router-link class="navbar-link fs-5" to="/register">Registrati</router-link>
+                <a class="navbar-link fs-5" href="http://127.0.0.1:8000/register">Registrati</a>
               </div>
             </div>
             <div class="py-4">
               <h6 class="text-white fs-3">Note legali</h6>
-              <a class="navbar-link fs-6" to="/login">Termini & Condizioni</a>
+              <a class="navbar-link fs-6">Termini & Condizioni</a>
               <div class="">
-                <a class="navbar-link fs-6" to="/register">Informativa sulla privacy</a>
+                <a class="navbar-link fs-6">Informativa sulla privacy</a>
               </div>
             </div>
           </div>
@@ -57,9 +57,9 @@ export default {
 
       <div class="register col-3 col-lg-2 col-md-2 d-none d-sm-block ">
         <div class="d-flex align-items-center gap-3 justify-content-end">
-          <router-link class="navbar-link fs-5" to="/login">Login</router-link>
-          <router-link class="fs-5 button btn shadow bg-white rounded-pill border-0 py-1 px-3"
-            to="/register">Registrati</router-link>
+          <a class="navbar-link fs-5" href="http://127.0.0.1:8000/login">Login</a>
+          <a class="fs-5 button btn shadow bg-white rounded-pill border-0 py-1 px-3"
+            href="http://127.0.0.1:8000/register">Registrati</a>
         </div>
       </div>
     </div>
