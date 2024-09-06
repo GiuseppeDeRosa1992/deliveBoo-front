@@ -1,4 +1,5 @@
 <script>
+import { RouterLink } from 'vue-router';
 
 export default {
   name: 'AppHeader',
@@ -16,7 +17,7 @@ export default {
       </div>
 
       <div class="navbar col-5 col-lg-9 col-md-7 d-none d-sm-block ps-3">
-        <router-link class="navbar-link fs-4" to="/restaurant">Ristoranti</router-link>
+        <router-link class="navbar-link fs-4" to="/">Ristoranti</router-link>
       </div>
 
       <!-- Navbar mobile visibile su schermi piccoli -->

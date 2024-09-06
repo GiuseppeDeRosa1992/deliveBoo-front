@@ -10,7 +10,7 @@ const router = createRouter({
         {
             path:'/',
             name: 'home',
-            component: AppHeader
+            component: AppHome
         },
         {
             path:'/http://127.0.0.1:8000/login',

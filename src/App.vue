@@ -1,6 +1,6 @@
 <script>
 import AppHeader from './components/AppHeader.vue';
-import AppMain from "./components/AppMain.vue";
+import { RouterLink } from 'vue-router';
 import AppFooter from "./components/AppFooter.vue";
 
 export default {
@@ -8,7 +8,6 @@ export default {
 
   components: {
     AppHeader,
-    AppMain,
     AppFooter,
   }
 
@@ -21,7 +20,7 @@ export default {
 
   <AppHeader />
 
-  <AppMain />
+  <router-view></router-view>
 
   <AppFooter />
 
