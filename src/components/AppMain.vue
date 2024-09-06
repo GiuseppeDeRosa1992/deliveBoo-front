@@ -52,11 +52,18 @@ export default {
 
         // Se sono selezionati più tipi, controlla se il ristorante appartiene a uno dei tipi selezionati
         const matchesType = this.filtraRistorante.length === 0 ||
-          restaurant.type.some(t => this.filtraRistorante.includes(t.name));
+        this.filtraRistorante.every(type => 
+        restaurant.type.some(t => t.name === type)
+      );
 
         return matchesSearch && matchesType;
       });
-    }
+    },
+
+
+    totalRestaurants() {
+    return this.filteredRestaurants.length;
+  },
   }
 };
 
@@ -90,6 +97,13 @@ export default {
 
       </div>
 
+      <!-- elenco ristoranti che sono filtrati -->
+      <!-- <div class="row justify-content-center">
+        <div class="col-12">
+          <p class="fs-5 mb-3">Totale ristoranti trovati: {{ totalRestaurants }}</p>
+        </div>
+      </div> -->
+
       <!-- Lista dei ristoranti filtrati -->
       <div class="row justify-content-center">
         <template v-if="filteredRestaurants.length > 0">
@@ -105,6 +119,16 @@ export default {
               <div class="card-body">
                 <h5 class="card-title">{{ restaurant.name }}</h5>
                 <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ restaurant.address }}</p>
+                <p class="card-text">
+                  <strong>Tipologie: </strong>
+                  <span v-for="(type, index) in restaurant.type" :key="index">
+                    <span
+                      :class="{ 'highlighted': filtraRistorante.includes(type.name) }">
+                      {{ type.name }}
+                    </span>
+                    <span v-if="index < restaurant.type.length - 1">, </span>
+                  </span>
+                </p>
               </div>
             </div>
           </div>
@@ -204,18 +228,13 @@ export default {
 
 }
 
-/* .chip:hover {
-  background-color: #2C3E50;
-  color: white;
-}
-
-.chip:focus {
-  background-color: #BDC3C7;
-  color: #2C3E50;
-} */
-
 .chip-selected {
   background-color: #E67E22;
   color: white;
+}
+
+.highlighted {
+  font-weight: bold;
+  color: #E67E22; /* Cambia il colore per evidenziarlo */
 }
 </style>
