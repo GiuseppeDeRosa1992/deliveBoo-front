@@ -21,25 +21,34 @@ export default {
   methods: {
     // Metodo per recuperare i ristoranti dall'API
     chiamataRestaurant() {
-      axios.get(`${this.base_url}/api/restaurant`)
-        .then(result => {
-          this.restaurants = result.data;
-        })
-        .catch(error => {
-          console.error('Errore nel recupero dei dati:', error);
-          this.error = 'Errore nel caricamento dei ristoranti';
-        });
+      const params = {};
+    if (this.filtraRistorante.length > 0) {
+      params.type = this.filtraRistorante.join(','); // Unisci i tipi selezionati con una virgola
+    }
+
+    // Effettua la chiamata GET con i parametri
+    axios.get(`${this.base_url}/api/restaurants`, { params })
+      .then(result => {
+        this.restaurants = result.data; // Accedi ai ristoranti nella risposta
+        console.log(result.data);
+      }).catch(error => {
+        console.error('Errore nel recupero dei dati:', error);
+        this.error = 'Errore nel caricamento dei ristoranti';
+        console.log("non funziona ");
+      })
     },
 
     toggleType(type) {
       const index = this.filtraRistorante.indexOf(type);
       if (index === -1) {
-        // Se non è selezionato, aggiungi la categoria
-        this.filtraRistorante.push(type);
-      } else {
-        // Se è già selezionato, rimuovi la categoria
-        this.filtraRistorante.splice(index, 1);
-      }
+      // Se non è selezionato, aggiungi la categoria
+      this.filtraRistorante.push(type);
+    } else {
+      // Se è già selezionato, rimuovi la categoria
+      this.filtraRistorante.splice(index, 1);
+    }
+    this.chiamataRestaurant();
+
     },
 
   },
