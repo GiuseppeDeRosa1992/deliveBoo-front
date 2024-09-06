@@ -1,5 +1,6 @@
 <script>
 import axios from 'axios';
+import { RouterLink } from 'vue-router';
 
 export default {
   name: 'AppMain',
@@ -138,6 +139,9 @@ export default {
                     <span v-if="index < restaurant.type.length - 1">, </span>
                   </span>
                 </p>
+                <div>
+                  <router-link class="btn btn-success" :to="{ name: 'menu', params: { restaurant_id: restaurant.id } }">Visualizza Menù</router-link>
+                </div>
               </div>
             </div>
           </div>

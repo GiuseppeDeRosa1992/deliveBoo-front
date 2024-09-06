@@ -13,7 +13,7 @@ export default {
     <div class="row cont-header align-items-center">
 
       <div class="logo col-3 col-lg-1 col-md-2">
-        <a class="navbar-link fs-4" to="/"><img src="/public/logo-deliveboo-no-scritta.png" alt=""></a>
+        <a class="navbar-link fs-4" to="/"><img src="/logo-deliveboo-no-scritta.png" alt=""></a>
       </div>
 
       <div class="navbar col-5 col-lg-9 col-md-7 d-none d-sm-block ps-3">
