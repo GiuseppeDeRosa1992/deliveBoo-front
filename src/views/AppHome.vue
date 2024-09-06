@@ -83,8 +83,7 @@ export default {
   <div class="text-center cont-main">
     <div class="container">
       <div class="row justify-content-center align-items-center">
-        <div class="col-12 col-md-8 col-lg-6">
-          <img class="logo my-3" src="../assets/logo-deliveboo.png" alt="">
+        <div class="col-12 col-md-8 col-lg-6 mt-4">
           <h1 class="mb-3">Benvenuto su Deliveboo</h1>
           <h3 class="mb-4">Il sapore che ti raggiunge</h3>
         </div>

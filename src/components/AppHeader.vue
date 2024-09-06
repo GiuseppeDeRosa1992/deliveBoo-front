@@ -10,7 +10,7 @@ export default {
 <template>
 
   <header class="container-fluid d-flex  shadow py-2 mx-0 justify-content-center">
-    <div class="row cont-header align-items-center">
+    <!-- <div class="row cont-header align-items-center">
 
       <div class="logo col-3 col-lg-1 col-md-2">
         <a class="navbar-link fs-4" to="/"><img src="/public/logo-deliveboo-no-scritta.png" alt=""></a>
@@ -20,7 +20,7 @@ export default {
         <a class="navbar-link fs-4" to="/">Home</a>
       </div>
 
-      <!-- Navbar mobile visibile su schermi piccoli -->
+   
       <div class="navbar-mobile col-9 d-block d-sm-none d-flex justify-content-end">
         <a class="text-white fs-3 pe-2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
           aria-controls="offcanvasExample">
@@ -57,11 +57,15 @@ export default {
 
       <div class="register col-3 col-lg-2 col-md-2 d-none d-sm-block ">
         <div class="d-flex align-items-center gap-3 justify-content-end">
-          <a class="navbar-link fs-5" href="http://127.0.0.1:8000/login">Login</a>
-          <a class="fs-5 button btn shadow bg-white rounded-pill border-0 py-1 px-3"
-            href="http://127.0.0.1:8000/register">Registrati</a>
+          
         </div>
       </div>
+    </div> -->
+    <div class="row cont-logo1">
+      <div class="col-12 cont-logo2">
+      <router-link class="navbar-link fs-4 logo" to="/"><img src="/public/logo-deliveboo-no-scritta.png"
+          alt=""></router-link>
+        </div>
     </div>
   </header>
 
@@ -76,7 +80,23 @@ header {
   z-index: 2;
 }
 
-.cont-header {
+.cont-logo1 {
+  height: 100%;
+}
+
+.cont-logo2 {
+  height: 100%;
+}
+
+.logo {
+  height: 100%;
+}
+
+.logo img {
+  height: 100%;
+}
+
+/* .cont-header {
   height: 100%;
   width: 1200px;
 }
@@ -109,5 +129,5 @@ header {
 
 .body-hamb-menu {
   background-color: #E67E22;
-}
+} */
 </style>
