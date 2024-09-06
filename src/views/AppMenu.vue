@@ -31,8 +31,8 @@ export default {
   },
 
   computed: {
-    restaurantId() {
-      return this.$route.params.restaurant_id;
+    restaurantSlug() {
+      return this.$route.params.restaurant_slug;
     }
   }
 };
