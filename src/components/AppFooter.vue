@@ -59,10 +59,11 @@ export default {
 
         <!-- App -->
         <div class="col-md-2 mb-4 text-center">
-          <h5>Download Our App</h5>
+          <h5>Se sei un Ristorante</h5>
           <div class="d-flex flex-column">
-            <a href="#" class="btn mb-3 mt-1 btn-download" style="background-color: #D35400">Download for iOS</a>
-            <a href="#" class="btn btn-download" style="background-color: #D35400">Download for Android</a>
+            <a class="navbar-link text-white fs-5 text-decoration-none mb-2" href="http://127.0.0.1:8000/login" target="_blank">Login</a>
+            <a class="fs-5 button-register shadow bg-white rounded-pill border-0 py-1 px-3"
+              href="http://127.0.0.1:8000/register" target="_blank">Registrati</a>
           </div>
         </div>
 
@@ -115,5 +116,14 @@ export default {
 .quickLinks a:hover {
   color: #e67e22;
   text-decoration: underline;
+}
+
+.navbar-link:hover {
+  color: #e67e22;
+}
+
+.button-register {
+color: #2C3E50;
+text-decoration: none;
 }
 </style>
