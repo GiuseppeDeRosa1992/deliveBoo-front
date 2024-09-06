@@ -18,8 +18,8 @@ export default {
   },
 
   computed: {
-    restaurantId() {
-      return this.$route.params.restaurant_id;
+    restaurantSlug() {
+      return this.$route.params.restaurant_slug;
     }
   }
 };
@@ -29,7 +29,7 @@ export default {
 <template>
     <div class="margin">
         <h1>Menu del Ristorante</h1>
-        <p>ID del ristorante: {{ restaurantId }}</p>
+        <p>ID del ristorante: {{ restaurantSlug}}</p>
     </div>
 </template>
 

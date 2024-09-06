@@ -139,7 +139,7 @@ export default {
                   </span>
                 </p>
                 <div>
-                  <router-link class="btn btn-success" :to="{ name: 'menu', params: { restaurant_id: restaurant.id } }">Visualizza Menù</router-link>
+                  <router-link class="btn btn-success" :to="{ name: 'menu', params: { restaurant_slug: restaurant.slug } }">Visualizza Menù</router-link>
                 </div>
               </div>
             </div>
