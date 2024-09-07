@@ -1,13 +1,13 @@
 <script>
 import axios from 'axios';
-import { RouterLink } from 'vue-router';
 
 export default {
   data() {
     return {
       dishes: [], // Piatti del ristorante
       error: null,
-      cart: JSON.parse(localStorage.getItem('cart')) || [] //Serve per mantenere il carrello in maniera persistente
+      cart: JSON.parse(localStorage.getItem('cart')) || [], // Recupera il carrello dal localStorage
+      currentRestaurant: localStorage.getItem('currentRestaurant') || null, // Ristorante attualmente nel carrello
     };
   },
   mounted() {
@@ -17,6 +17,7 @@ export default {
     getDishes() {
       const restaurantSlug = this.$route.params.restaurant_slug;
 
+      // Effettua la chiamata per ottenere i piatti del ristorante
       axios.get(`http://127.0.0.1:8000/api/restaurants/${restaurantSlug}/dishes`)
         .then(response => {
           this.dishes = response.data.dishes;
@@ -25,18 +26,36 @@ export default {
           this.error = 'Errore nel caricamento dei piatti';
           console.error(error);
         });
+
+      // Controlla se il ristorante è cambiato
+      if (this.currentRestaurant && this.currentRestaurant !== restaurantSlug) {
+        // Se il ristorante è cambiato, svuota il carrello
+        this.clearCart();
+      }
+
+      // Aggiorna il ristorante corrente nel localStorage
+      this.currentRestaurant = restaurantSlug;
+      localStorage.setItem('currentRestaurant', restaurantSlug);
     },
     addToCart(dish) {
+      // Aggiunge il piatto al carrello
       this.cart.push(dish);
       localStorage.setItem('cart', JSON.stringify(this.cart));
-    }, //Funzione che gestisce l'aggiunta al carrello
-
+    },
     removeFromCart(dish) {
+      // Rimuove il piatto dal carrello
       this.cart = this.cart.filter(item => item.id !== dish.id);
-    }
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+    },
+    clearCart() {
+      // Svuota il carrello
+      this.cart = [];
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+    },
   }
 }
 </script>
+
 
 <template>
   <div class="cont-main">
