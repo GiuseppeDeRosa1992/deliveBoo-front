@@ -33,7 +33,9 @@ export default {
   <div class="text-center cont-main">
     <div class="container">
       <div class="row justify-content-center">
+
         <!-- Lista dei piatti -->
+
         <div class="row justify-content-center">
           <template v-if="dishes.length > 0">
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" v-for="dish in dishes" :key="dish.id">
