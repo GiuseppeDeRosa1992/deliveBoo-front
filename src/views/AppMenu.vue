@@ -39,7 +39,7 @@ export default {
         <div class="row justify-content-center">
           <template v-if="dishes.length > 0">
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" v-for="dish in dishes" :key="dish.id">
-              <div class="card h-100">
+              <div class="card h-100 dish-card">
                 <template v-if="!dish.image.startsWith('http')">
                   <img class="card-img-top" :src="base_url + '/storage/' + dish.image" alt="">
                 </template>
@@ -49,6 +49,8 @@ export default {
                 <div class="card-body">
                   <h5 class="card-title">{{ dish.name }}</h5>
                   <p class="card-text">€{{ dish.price }}</p>
+                  <p class="card-description">{{ dish.description }}</p>
+                  <button class="btn btn-primary">Aggiungi al Carrello</button>
                 </div>
               </div>
             </div>
@@ -63,25 +65,33 @@ export default {
 </template>
 
 <style scoped>
-/* Stili per rendere più gradevole il layout */
 .container {
-  margin-top: 3rem;
+  margin-top: 5rem;
 }
 
 .dish-card {
-  border: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .dish-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 24px rgba(255, 87, 34, 0.5);
+
 }
 
 .dish-image {
   height: 200px;
   object-fit: cover;
   border-radius: 8px;
+}
+
+.card-body {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
 }
 
 .card-title {
@@ -110,6 +120,10 @@ export default {
 .btn-primary:hover {
   background-color: #d35400;
   border-color: #d35400;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .pb-3 {
