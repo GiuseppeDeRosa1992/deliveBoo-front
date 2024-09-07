@@ -6,7 +6,8 @@ export default {
   data() {
     return {
       dishes: [], // Piatti del ristorante
-      error: null
+      error: null,
+      cart: JSON.parse(localStorage.getItem('cart')) || [] //Serve per mantenere il carrello in maniera persistente
     };
   },
   mounted() {
@@ -24,7 +25,11 @@ export default {
           this.error = 'Errore nel caricamento dei piatti';
           console.error(error);
         });
-    }
+    },
+    addToCart(dish) {
+      this.cart.push(dish);
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+    } //Funzione che gestisce l'aggiunta al carrello
   }
 }
 </script>
@@ -49,7 +54,7 @@ export default {
                     <h5 class="card-title">{{ dish.name }}</h5>
                     <p class="card-text">€{{ dish.price }}</p>
                     <p class="card-description">{{ dish.description }}</p>
-                    <button class="btn btn-primary">Aggiungi al Carrello</button>
+                    <button class="btn btn-primary" @click="addToCart(dish)">Aggiungi al Carrello</button>
                   </div>
                 </div>
               </div>
@@ -67,7 +72,11 @@ export default {
               <h5 class="card-title">Carrello</h5>
               <p class="card-text">Aggiungi piatti al carrello per visualizzare qui.</p>
               <div class="cart-items">
-                <!-- Elementi del carrello saranno aggiunti qui -->
+                <ul>
+                  <li v-for="dish in cart" :key="dish.id">
+                    {{ dish.name }} - €{{ dish.price }}
+                  </li>
+                </ul>
               </div>
               <button class="btn btn-success">Procedi al ordine</button>
             </div>
