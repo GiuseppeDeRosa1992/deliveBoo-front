@@ -63,9 +63,9 @@ export default {
     </div> -->
     <div class="row cont-logo1">
       <div class="col-12 cont-logo2">
-      <router-link class="navbar-link fs-4 logo" to="/"><img src="/public/logo-deliveboo-no-scritta.png"
-          alt=""></router-link>
-        </div>
+        <router-link class="navbar-link fs-4 logo" to="/"><img src="/public/logo-deliveboo-no-scritta.png"
+            alt=""></router-link>
+      </div>
     </div>
   </header>
 
@@ -75,9 +75,7 @@ export default {
 header {
   height: 5rem;
   background-color: #E67E22;
-  position: fixed;
-  margin-top: -5rem;
-  z-index: 2;
+
 }
 
 .cont-logo1 {

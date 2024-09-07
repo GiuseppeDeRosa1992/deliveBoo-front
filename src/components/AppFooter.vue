@@ -59,11 +59,11 @@ export default {
 
         <!-- App -->
         <div class="col-md-2 mb-4 text-center">
-          <h5>Se sei un Ristorante</h5>
+          <h4>Se sei un Ristorante</h4>
           <div class="d-flex flex-column">
-            <a class="navbar-link text-white fs-5 text-decoration-none mb-2" href="http://127.0.0.1:8000/login" target="_blank">Login</a>
-            <a class="fs-5 button-register shadow bg-white rounded-pill border-0 py-1 px-3"
-              href="http://127.0.0.1:8000/register" target="_blank">Registrati</a>
+            <a class="fs-5 button-login rounded-pill " href="http://127.0.0.1:8000/login" target="_blank">Login</a>
+            <a class="fs-5 button-register rounded-pill  " href="http://127.0.0.1:8000/register"
+              target="_blank">Registrati</a>
           </div>
         </div>
 
@@ -92,11 +92,20 @@ export default {
 }
 
 /* Pulsanti con effetto ingrandimento */
-.btn-download {
+.button-login {
+  background-color: #ffffff;
+  border-color: #ffffff;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  color: #e67e22;
+  text-decoration: none;
   transition: transform 0.3s ease;
+  margin-top: 1rem;
 }
 
-.btn-download:hover {
+.button-login:hover {
   transform: scale(1.1);
 }
 
@@ -123,7 +132,19 @@ export default {
 }
 
 .button-register {
-color: #2C3E50;
-text-decoration: none;
+  background-color: #e67e22;
+  border-color: #e67e22;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  margin-top: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.button-register:hover {
+  transform: scale(1.1);
 }
 </style>
