@@ -9,7 +9,7 @@ export default {
 
 <template>
 
-  <header class="container-fluid d-flex  shadow py-2 mx-0 justify-content-center">
+  <header class="container-fluid d-flex  shadow py-2 mx-0 ">
     <!-- <div class="row cont-header align-items-center">
 
       <div class="logo col-3 col-lg-1 col-md-2">
@@ -65,6 +65,7 @@ export default {
       <div class="col-12 cont-logo2">
         <router-link class="navbar-link fs-4 logo" to="/"><img src="/public/logo-deliveboo-no-scritta.png"
             alt=""></router-link>
+        <router-link class="navbar-link fs-4 text-white text-decoration-none" to="/">Home</router-link>
       </div>
     </div>
   </header>
