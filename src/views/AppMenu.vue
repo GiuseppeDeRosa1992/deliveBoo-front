@@ -3,39 +3,30 @@ import axios from 'axios';
 import { RouterLink } from 'vue-router';
 
 export default {
-  name: 'AppMenu',
-
   data() {
     return {
-
-      dishes: [], // Array per salvare i piatti recuperati dall'API
-      base_url: 'http://127.0.0.1:8000', // URL base per l'API
+      dishes: [], // Piatti del ristorante
+      error: null
     };
   },
-
   mounted() {
-    this.getDishes(); // Recupera i piatti quando il componente è montato
+    this.getDishes();
   },
-
   methods: {
     getDishes() {
-      // Effettua una chiamata GET all'API per ottenere i piatti del ristorante
-      axios.get(`${this.base_url}/api/restaurants/${this.restaurantId}/dishes`)
+      const restaurantSlug = this.$route.params.restaurant_slug;
+
+      axios.get(`http://127.0.0.1:8000/api/restaurants/${restaurantSlug}/dishes`)
         .then(response => {
-          this.dishes = response.data; // Salva i piatti nel data
+          this.dishes = response.data.dishes;
         })
         .catch(error => {
-          console.error("Errore durante il recupero dei piatti:", error);
+          this.error = 'Errore nel caricamento dei piatti';
+          console.error(error);
         });
     }
-  },
-
-  computed: {
-    restaurantSlug() {
-      return this.$route.params.restaurant_slug;
-    }
   }
-};
+}
 </script>
 
 <template>
@@ -70,7 +61,62 @@ export default {
 </template>
 
 <style scoped>
-.margin {
-  margin-top: 20rem;
+/* Stili per rendere più gradevole il layout */
+.container {
+  margin-top: 3rem;
+}
+
+.dish-card {
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dish-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.dish-image {
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.card-title {
+  font-size: 1.3rem;
+  color: #2c3e50;
+}
+
+.card-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+.card-description {
+  font-size: 0.95rem;
+  color: #7f8c8d;
+}
+
+.btn-primary {
+  background-color: #e67e22;
+  border-color: #e67e22;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #d35400;
+  border-color: #d35400;
+}
+
+.pb-3 {
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .dish-image {
+    height: 150px;
+  }
 }
 </style>

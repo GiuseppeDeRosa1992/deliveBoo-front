@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import AppHeader from './components/AppHeader.vue';
 import AppHome from './views/AppHome.vue';
 import AppMenu from './views/AppMenu.vue';
@@ -7,25 +7,25 @@ import AppMenu from './views/AppMenu.vue';
 
 const router = createRouter({
     history: createWebHistory(),
-    routes:[
-        
+    routes: [
+
         {
-            path:'/',
+            path: '/',
             name: 'home',
             component: AppHome
         },
         {
-            path:'/menu/:restaurant_slug',
+            path: '/restaurants/:restaurant_slug/menu',
             name: 'menu',
             component: AppMenu
         },
         {
-            path:'/http://127.0.0.1:8000/register',
+            path: '/http://127.0.0.1:8000/register',
             name: 'login',
             component: AppHeader
         },
-       
+
     ]
 });
 
-export{router};
+export { router };
