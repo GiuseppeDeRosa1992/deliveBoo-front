@@ -2,6 +2,7 @@
 import axios from 'axios';
 
 export default {
+
   data() {
     return {
       dishes: [], // Piatti del ristorante
@@ -10,9 +11,11 @@ export default {
       currentRestaurant: localStorage.getItem('currentRestaurant') || null, // Ristorante attualmente nel carrello
     };
   },
+
   mounted() {
     this.getDishes();
   },
+
   methods: {
     getDishes() {
       const restaurantSlug = this.$route.params.restaurant_slug;
@@ -38,8 +41,18 @@ export default {
       localStorage.setItem('currentRestaurant', restaurantSlug);
     },
     addToCart(dish) {
-      // Aggiunge il piatto al carrello
-      this.cart.push(dish);
+      // Cerca se il piatto è già nel carrello
+      const cartItem = this.cart.find(item => item.id === dish.id);
+
+      if (cartItem) {
+        // Se il piatto è già nel carrello, incrementa la quantità
+        cartItem.quantity += 1;
+      } else {
+        // Se il piatto non è nel carrello, aggiungilo con quantità 1
+        this.cart.push({ ...dish, quantity: 1 });
+      }
+
+      // Salva il carrello nel localStorage
       localStorage.setItem('cart', JSON.stringify(this.cart));
     },
     removeFromCart(dish) {
@@ -52,8 +65,39 @@ export default {
       this.cart = [];
       localStorage.setItem('cart', JSON.stringify(this.cart));
     },
-  }
+    incrementQuantity(dish) {
+      // Incrementa la quantità del piatto
+      const cartItem = this.cart.find(item => item.id === dish.id);
+      if (cartItem) {
+        cartItem.quantity += 1;
+      }
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+    },
+    decrementQuantity(dish) {
+      // Decrementa la quantità del piatto, ma non scende sotto 1
+      const cartItem = this.cart.find(item => item.id === dish.id);
+      if (cartItem && cartItem.quantity > 1) {
+        cartItem.quantity -= 1;
+      } else if (cartItem && cartItem.quantity === 1) {
+        // Se la quantità è 1, rimuovi il piatto dal carrello
+        this.removeFromCart(dish);
+      }
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+    }
+  },
+
+  computed: {
+    // Calcola il totale dei prodotti inseriti nel carrello
+    totalProducts() {
+      return this.cart.reduce((total, dish) => total + dish.quantity, 0);
+    },
+    // Calcola il totale del prezzo
+    totalPrice() {
+      return this.cart.reduce((total, dish) => total + (dish.price * dish.quantity), 0).toFixed(2);
+    }
+  },
 }
+
 </script>
 
 
@@ -95,14 +139,25 @@ export default {
               <h5 class="card-title">Carrello</h5>
               <p class="card-text">Aggiungi piatti al carrello per visualizzare qui.</p>
               <div class="cart-items">
-                <ul>
+                <ul v-if="cart.length > 0">
                   <li v-for="dish in cart" :key="dish.id">
-                    <span>{{ dish.name }} - €{{ dish.price }}</span>
-                    <button class="btn btn-danger btn-sm" @click="removeFromCart(dish)">Rimuovi</button>
+                    <span>{{ dish.name }} - €{{ dish.price }} x {{ dish.quantity }}</span>
+                    <div class="quantity-controls">
+                      <button class="rounded border-0 text-white btn-quantity" @click="decrementQuantity(dish)">-</button>
+                      <span>{{ dish.quantity }}</span>
+                      <button class="rounded border-0 text-white btn-quantity" @click="incrementQuantity(dish)">+</button>
+                    </div>
+                    <button class="btn btn-danger btn-sm" @click="removeFromCart(dish)"><i class="fa-solid fa-trash"></i></button>
                   </li>
                 </ul>
+                <p v-if="cart.length === 0">Il carrello è vuoto</p>
               </div>
-              <button class="btn btn-success">Procedi al ordine</button>
+              <!-- Totale dei prodotti e del prezzo -->
+              <div v-if="cart.length > 0" class="cart-totals border-top pt-3">
+                <p class="mb-2">Totale prodotti: {{ totalProducts }}</p>
+                <p>Totale da pagare: €{{ totalPrice }}</p>
+              </div>
+              <button class="btn btn-success" v-if="cart.length > 0">Procedi all'ordine</button>
             </div>
           </div>
         </div>
@@ -114,7 +169,6 @@ export default {
 
 <style scoped>
 /* Spazio extra tra l'header e il contenuto */
-.cont-main {}
 
 .container {
   max-width: 1200px;
@@ -227,5 +281,26 @@ export default {
 .btn-danger:hover {
   background-color: #c0392b;
   border-color: #c0392b;
+}
+
+.quantity-controls {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.quantity-controls button {
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  margin: 0 5px;
+}
+
+.quantity-controls span {
+  font-size: 16px;
+  margin: 0 5px;
+}
+
+.btn-quantity {
+  background-color: #e67e22;
 }
 </style>
