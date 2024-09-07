@@ -29,7 +29,11 @@ export default {
     addToCart(dish) {
       this.cart.push(dish);
       localStorage.setItem('cart', JSON.stringify(this.cart));
-    } //Funzione che gestisce l'aggiunta al carrello
+    }, //Funzione che gestisce l'aggiunta al carrello
+
+    removeFromCart(dish) {
+      this.cart = this.cart.filter(item => item.id !== dish.id);
+    }
   }
 }
 </script>
@@ -74,7 +78,8 @@ export default {
               <div class="cart-items">
                 <ul>
                   <li v-for="dish in cart" :key="dish.id">
-                    {{ dish.name }} - €{{ dish.price }}
+                    <span>{{ dish.name }} - €{{ dish.price }}</span>
+                    <button class="btn btn-danger btn-sm" @click="removeFromCart(dish)">Rimuovi</button>
                   </li>
                 </ul>
               </div>
@@ -190,5 +195,18 @@ export default {
 
 .text-center {
   text-align: center;
+}
+
+.btn-danger {
+  margin-left: 1rem;
+  margin-top: 0.1rem;
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+  border-color: #c0392b;
 }
 </style>
