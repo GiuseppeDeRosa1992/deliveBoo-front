@@ -136,25 +136,35 @@ export default {
         <div class="col-12 col-md-4">
           <div class="card cart-card">
             <div class="card-body">
-              <h5 class="card-title">Carrello</h5>
-              <p class="card-text">Aggiungi piatti al carrello per visualizzare qui.</p>
-              <div class="cart-items">
-                <ul v-if="cart.length > 0">
-                  <li v-for="dish in cart" :key="dish.id">
-                    <span>{{ dish.name }} - €{{ dish.price }} x {{ dish.quantity }}</span>
-                    <div class="quantity-controls">
-                      <button class="rounded border-0 text-white btn-quantity" @click="decrementQuantity(dish)">-</button>
-                      <span>{{ dish.quantity }}</span>
-                      <button class="rounded border-0 text-white btn-quantity" @click="incrementQuantity(dish)">+</button>
+              <h5 class="card-title fs-3 mb-3">Carrello</h5>
+              <p class="card-text" v-if="cart.length === 0">Aggiungi piatti al carrello per visualizzare qui.</p>
+              <div class="cart-items mb-0">
+                <div class="cart-list ps-0" v-if="cart.length > 0">
+
+                  <div class="d-flex mb-2 cart-list-detail flex-column pb-2" v-for="dish in cart"
+                    :key="dish.id">
+                    <div class="mb-1 d-flex align-items-center justify-content-between">
+                      <span class="fs-4 cart-name-dish">{{ dish.name }}</span>
+                      <span class="ps-2 fw-bold">€{{ dish.price }}</span>
                     </div>
-                    <button class="btn btn-danger btn-sm" @click="removeFromCart(dish)"><i class="fa-solid fa-trash"></i></button>
-                  </li>
-                </ul>
+                    <div class="d-flex align-items-center justify-content-between pb-2">
+                      <div class="quantity-controls ms-0">
+                        <button class="rounded border-0 text-white btn-quantity ms-0"
+                          @click="decrementQuantity(dish)">-</button>
+                        <span>{{ dish.quantity }}</span>
+                        <button class="rounded border-0 text-white btn-quantity"
+                          @click="incrementQuantity(dish)">+</button>
+                      </div>
+                      <button class="btn btn-danger btn-sm mt-0" @click="removeFromCart(dish)"><i
+                          class="fa-solid fa-trash"></i></button>
+                    </div>
+                  </div>
+                </div>
                 <p v-if="cart.length === 0">Il carrello è vuoto</p>
               </div>
               <!-- Totale dei prodotti e del prezzo -->
-              <div v-if="cart.length > 0" class="cart-totals border-top pt-3">
-                <p class="mb-2">Totale prodotti: {{ totalProducts }}</p>
+              <div v-if="cart.length > 0" class="cart-totals border-top border-2 border-dark pt-2">
+                <p class="mb-1">Totale prodotti: {{ totalProducts }}</p>
                 <p>Totale da pagare: €{{ totalPrice }}</p>
               </div>
               <button class="btn btn-success" v-if="cart.length > 0">Procedi all'ordine</button>
@@ -302,5 +312,21 @@ export default {
 
 .btn-quantity {
   background-color: #e67e22;
+}
+
+.cart-list {
+  list-style-type: none;
+}
+
+.cart-name-dish {
+  min-width: 80px;
+}
+
+.cart-list .cart-list-detail {
+  border-bottom: 1px solid #ddd; /* Bordo grigio tra i prodotti */
+}
+
+.cart-list .cart-list-detail:last-child {
+  border-bottom: none; /* Rimuove il bordo nell'ultimo prodotto */
 }
 </style>

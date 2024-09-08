@@ -125,7 +125,7 @@ export default {
               <template v-else>
                 <img class="card-img-top" :src="restaurant.image" alt="">
               </template>
-              <div class="card-body">
+              <div class="card-body d-flex flex-column justify-content-between">
                 <h5 class="card-title">{{ restaurant.name }}</h5>
                 <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ restaurant.address }}</p>
                 <p class="card-text">
@@ -138,7 +138,7 @@ export default {
                     <span v-if="index < restaurant.type.length - 1">, </span>
                   </span>
                 </p>
-                <div>
+                <div class="">
                   <router-link class="btn btn-success" :to="{ name: 'menu', params: { restaurant_slug: restaurant.slug } }">Visualizza Menù</router-link>
                 </div>
               </div>
