@@ -1,14 +1,21 @@
 <script>
 import axios from 'axios';
+import PaymentComponent from '../components/PaymentComponent.vue';
+
+import { useRouter } from 'vue-router'; // Importa il router
 
 export default {
   data() {
     return {
-      dishes: [], // Piatti del ristorante
+      dishes: [],
       error: null,
-      cart: JSON.parse(localStorage.getItem('cart')) || [], // Recupera il carrello dal localStorage
-      currentRestaurant: localStorage.getItem('currentRestaurant') || null, // Ristorante attualmente nel carrello
+      cart: JSON.parse(localStorage.getItem('cart')) || [],
+      currentRestaurant: localStorage.getItem('currentRestaurant') || null,
+      showPayment: false, // Variabile per mostrare il modulo di pagamento
     };
+  },
+  components: {
+    PaymentComponent, // Registra il componente di pagamento
   },
   mounted() {
     this.getDishes();
@@ -17,7 +24,6 @@ export default {
     getDishes() {
       const restaurantSlug = this.$route.params.restaurant_slug;
 
-      // Effettua la chiamata per ottenere i piatti del ristorante
       axios.get(`http://127.0.0.1:8000/api/restaurants/${restaurantSlug}/dishes`)
         .then(response => {
           this.dishes = response.data.dishes;
@@ -27,34 +33,29 @@ export default {
           console.error(error);
         });
 
-      // Controlla se il ristorante è cambiato
       if (this.currentRestaurant && this.currentRestaurant !== restaurantSlug) {
-        // Se il ristorante è cambiato, svuota il carrello
         this.clearCart();
       }
 
-      // Aggiorna il ristorante corrente nel localStorage
       this.currentRestaurant = restaurantSlug;
       localStorage.setItem('currentRestaurant', restaurantSlug);
     },
     addToCart(dish) {
-      // Aggiunge il piatto al carrello
       this.cart.push(dish);
       localStorage.setItem('cart', JSON.stringify(this.cart));
     },
     removeFromCart(dish) {
-      // Rimuove il piatto dal carrello
       this.cart = this.cart.filter(item => item.id !== dish.id);
       localStorage.setItem('cart', JSON.stringify(this.cart));
     },
     clearCart() {
-      // Svuota il carrello
       this.cart = [];
       localStorage.setItem('cart', JSON.stringify(this.cart));
     },
   }
-}
+};
 </script>
+
 
 
 <template>
@@ -77,6 +78,7 @@ export default {
                     <h5 class="card-title">{{ dish.name }}</h5>
                     <p class="card-text">€{{ dish.price }}</p>
                     <p class="card-description">{{ dish.description }}</p>
+                    
                     <button class="btn btn-primary" @click="addToCart(dish)">Aggiungi al Carrello</button>
                   </div>
                 </div>
@@ -102,7 +104,8 @@ export default {
                   </li>
                 </ul>
               </div>
-              <button class="btn btn-success">Procedi al ordine</button>
+              <button v-if="cart.length > 0" class="btn btn-success" @click="showPayment = true">Procedi al ordine</button>
+              <payment-component v-if="showPayment" @paymentSuccess="clearCart"/> <!-- Componente per il pagamento -->
             </div>
           </div>
         </div>
@@ -110,6 +113,7 @@ export default {
     </div>
   </div>
 </template>
+
 
 
 <style scoped>
