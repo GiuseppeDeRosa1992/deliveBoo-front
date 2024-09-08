@@ -122,7 +122,15 @@ export default {
         this.removeFromCart(dish);
       }
       localStorage.setItem('cart', JSON.stringify(this.cart));
+    },
+
+    proceedToOrder() {
+      if (this.cart.length > 0) {
+        this.$router.push('/cart'); // Reindirizza alla vista AppCart
+      }
     }
+
+
   },
 
   computed: {
@@ -205,7 +213,7 @@ export default {
                 <p class="mb-1">Totale prodotti: {{ totalProducts }}</p>
                 <p>Totale da pagare: €{{ totalPrice }}</p>
               </div>
-              <button class="btn btn-success" v-if="cart.length > 0">Procedi all'ordine</button>
+              <button class="btn btn-success" v-if="cart.length > 0" @click="proceedToOrder">Procedi all'ordine</button>
             </div>
           </div>
         </div>
