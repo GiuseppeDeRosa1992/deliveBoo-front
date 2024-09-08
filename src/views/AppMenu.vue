@@ -215,15 +215,17 @@ export default {
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="confirmModalLabel">Conferma Cambio Ristorante</h5>
+                <h4 class="modal-title" id="confirmModalLabel">Puoi ordinare da un solo ristorante! </h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <p>Hai dei piatti nel carrello. Vuoi svuotare il carrello e cambiare il ristorante?</p>
+                <p>Svuota il carrello per cambiare ristorante o completa l'ordine</p>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" @click="cancelRestaurantChange">Annulla</button>
-                <button type="button" class="btn btn-primary" @click="confirmRestaurantChange">Conferma</button>
+              <div class="modal-footer d-flex flex-column align-items-center">
+                <button type="button" class="btn btn-primary" @click="cancelRestaurantChange">Completa
+                  l'ordine</button>
+                <button type="button" class="btn btn-secondary" @click="confirmRestaurantChange">Svuota il
+                  carrello</button>
               </div>
             </div>
           </div>
@@ -308,6 +310,28 @@ export default {
   border-radius: 5px;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
+
+.btn-secondary {
+  background-color: #8b8783;
+  border-color: #8b8783;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #74716f;
+  border-color: #74716f;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
 
 .btn-primary:hover {
   background-color: #d35400;
