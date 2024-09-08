@@ -9,6 +9,7 @@ export default {
       error: null,
       cart: JSON.parse(localStorage.getItem('cart')) || [], // Recupera il carrello dal localStorage
       currentRestaurant: localStorage.getItem('currentRestaurant') || null, // Ristorante attualmente nel carrello
+      pendingRestaurantSlug: null, // Ristorante in sospeso per il cambio
     };
   },
 
@@ -20,6 +21,23 @@ export default {
     getDishes() {
       const restaurantSlug = this.$route.params.restaurant_slug;
 
+      if (this.currentRestaurant && this.currentRestaurant !== restaurantSlug) {
+        if (this.cart.length > 0) {
+          // Mostra il modale di conferma solo se il carrello non è vuoto
+          this.pendingRestaurantSlug = restaurantSlug;
+          const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+          confirmModal.show();
+        } else {
+          // Se il carrello è vuoto, carica direttamente i piatti del nuovo ristorante
+          this.loadDishes(restaurantSlug);
+        }
+        return;
+      }
+
+      this.loadDishes(restaurantSlug);
+    },
+
+    loadDishes(restaurantSlug) {
       // Effettua la chiamata per ottenere i piatti del ristorante
       axios.get(`http://127.0.0.1:8000/api/restaurants/${restaurantSlug}/dishes`)
         .then(response => {
@@ -30,16 +48,37 @@ export default {
           console.error(error);
         });
 
-      // Controlla se il ristorante è cambiato
-      if (this.currentRestaurant && this.currentRestaurant !== restaurantSlug) {
-        // Se il ristorante è cambiato, svuota il carrello
-        this.clearCart();
-      }
-
-      // Aggiorna il ristorante corrente nel localStorage
+      // Aggiorna il ristorante corrente
       this.currentRestaurant = restaurantSlug;
       localStorage.setItem('currentRestaurant', restaurantSlug);
     },
+
+    confirmRestaurantChange() {
+      // Svuota il carrello e carica i piatti del nuovo ristorante
+      this.clearCart();
+      this.loadDishes(this.pendingRestaurantSlug);
+      this.pendingRestaurantSlug = null;
+      const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+      confirmModal.hide();
+    },
+
+    cancelRestaurantChange() {
+      // Ricarica i piatti del ristorante corrente senza svuotare il carrello
+      this.loadDishes(this.currentRestaurant);
+      this.pendingRestaurantSlug = null;
+      const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+      confirmModal.hide();
+    },
+
+
+    cancelRestaurantChange() {
+      // Ricarica i piatti del ristorante corrente
+      this.loadDishes(this.currentRestaurant);
+      this.pendingRestaurantSlug = null;
+      const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+      confirmModal.hide();
+    },
+
     addToCart(dish) {
       // Cerca se il piatto è già nel carrello
       const cartItem = this.cart.find(item => item.id === dish.id);
@@ -141,8 +180,7 @@ export default {
               <div class="cart-items mb-0">
                 <div class="cart-list ps-0" v-if="cart.length > 0">
 
-                  <div class="d-flex mb-2 cart-list-detail flex-column pb-2" v-for="dish in cart"
-                    :key="dish.id">
+                  <div class="d-flex mb-2 cart-list-detail flex-column pb-2" v-for="dish in cart" :key="dish.id">
                     <div class="mb-1 d-flex align-items-center justify-content-between">
                       <span class="fs-4 cart-name-dish">{{ dish.name }}</span>
                       <span class="ps-2 fw-bold">€{{ dish.price }}</span>
@@ -168,6 +206,25 @@ export default {
                 <p>Totale da pagare: €{{ totalPrice }}</p>
               </div>
               <button class="btn btn-success" v-if="cart.length > 0">Procedi all'ordine</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modale di conferma -->
+        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Conferma Cambio Ristorante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Hai dei piatti nel carrello. Vuoi svuotare il carrello e cambiare il ristorante?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @click="cancelRestaurantChange">Annulla</button>
+                <button type="button" class="btn btn-primary" @click="confirmRestaurantChange">Conferma</button>
+              </div>
             </div>
           </div>
         </div>
@@ -323,10 +380,12 @@ export default {
 }
 
 .cart-list .cart-list-detail {
-  border-bottom: 1px solid #ddd; /* Bordo grigio tra i prodotti */
+  border-bottom: 1px solid #ddd;
+  /* Bordo grigio tra i prodotti */
 }
 
 .cart-list .cart-list-detail:last-child {
-  border-bottom: none; /* Rimuove il bordo nell'ultimo prodotto */
+  border-bottom: none;
+  /* Rimuove il bordo nell'ultimo prodotto */
 }
 </style>
