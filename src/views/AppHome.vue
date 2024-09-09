@@ -23,32 +23,32 @@ export default {
     // Metodo per recuperare i ristoranti dall'API
     chiamataRestaurant() {
       const params = {};
-    if (this.filtraRistorante.length > 0) {
-      params.type = this.filtraRistorante.join(','); // Unisci i tipi selezionati con una virgola
-    }
+      if (this.filtraRistorante.length > 0) {
+        params.type = this.filtraRistorante.join(','); // Unisci i tipi selezionati con una virgola
+      }
 
-    // Effettua la chiamata GET con i parametri
-    axios.get(`${this.base_url}/api/restaurants`, { params })
-      .then(result => {
-        this.restaurants = result.data; // Accedi ai ristoranti nella risposta
-        console.log(result.data);
-      }).catch(error => {
-        console.error('Errore nel recupero dei dati:', error);
-        this.error = 'Errore nel caricamento dei ristoranti';
-        console.log("non funziona ");
-      })
+      // Effettua la chiamata GET con i parametri
+      axios.get(`${this.base_url}/api/restaurants`, { params })
+        .then(result => {
+          this.restaurants = result.data; // Accedi ai ristoranti nella risposta
+          console.log(result.data);
+        }).catch(error => {
+          console.error('Errore nel recupero dei dati:', error);
+          this.error = 'Errore nel caricamento dei ristoranti';
+          console.log("non funziona ");
+        })
     },
 
     toggleType(type) {
       const index = this.filtraRistorante.indexOf(type);
       if (index === -1) {
-      // Se non è selezionato, aggiungi la categoria
-      this.filtraRistorante.push(type);
-    } else {
-      // Se è già selezionato, rimuovi la categoria
-      this.filtraRistorante.splice(index, 1);
-    }
-    this.chiamataRestaurant();
+        // Se non è selezionato, aggiungi la categoria
+        this.filtraRistorante.push(type);
+      } else {
+        // Se è già selezionato, rimuovi la categoria
+        this.filtraRistorante.splice(index, 1);
+      }
+      this.chiamataRestaurant();
 
     },
 
@@ -62,9 +62,9 @@ export default {
 
         // Se sono selezionati più tipi, controlla se il ristorante appartiene a uno dei tipi selezionati
         const matchesType = this.filtraRistorante.length === 0 ||
-        this.filtraRistorante.every(type => 
-        restaurant.type.some(t => t.name === type)
-      );
+          this.filtraRistorante.every(type =>
+            restaurant.type.some(t => t.name === type)
+          );
 
         return matchesSearch && matchesType;
       });
@@ -72,8 +72,8 @@ export default {
 
 
     totalRestaurants() {
-    return this.filteredRestaurants.length;
-  },
+      return this.filteredRestaurants.length;
+    },
   }
 };
 
@@ -82,6 +82,12 @@ export default {
 
 <template>
   <div class="text-center cont-main">
+
+    <!-- JUMBO -->
+    <div class="jumbo">
+      <video src="/src/assets/video-jumbo-1.mp4" muted="" loop="" autoplay="" type="video/mp4" class="w-100"></video>
+    </div>
+
     <div class="container">
       <div class="row justify-content-center align-items-center">
         <div class="col-12 col-md-8 col-lg-6 mt-4">
@@ -125,21 +131,22 @@ export default {
               <template v-else>
                 <img class="card-img-top" :src="restaurant.image" alt="">
               </template>
-              <div class="card-body">
+              <div class="card-body d-flex flex-column justify-content-between">
                 <h5 class="card-title">{{ restaurant.name }}</h5>
                 <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ restaurant.address }}</p>
                 <p class="card-text">
                   <strong>Tipologie: </strong>
                   <span v-for="(type, index) in restaurant.type" :key="index">
-                    <span
-                      :class="{ 'highlighted': filtraRistorante.includes(type.name) }">
+                    <span :class="{ 'highlighted': filtraRistorante.includes(type.name) }">
                       {{ type.name }}
                     </span>
                     <span v-if="index < restaurant.type.length - 1">, </span>
                   </span>
                 </p>
-                <div>
-                  <router-link class="btn btn-success" :to="{ name: 'menu', params: { restaurant_slug: restaurant.slug } }">Visualizza Menù</router-link>
+                <div class="">
+                  <router-link class="btn btn-success"
+                    :to="{ name: 'menu', params: { restaurant_slug: restaurant.slug } }">Visualizza
+                    Menù</router-link>
                 </div>
               </div>
             </div>
@@ -157,9 +164,9 @@ export default {
 </template>
 
 <style scoped>
-.cont-main {
+/* .cont-main {
   margin-top: 5rem;
-}
+} */
 
 
 .logo {
@@ -247,6 +254,7 @@ export default {
 
 .highlighted {
   font-weight: bold;
-  color: #E67E22; /* Cambia il colore per evidenziarlo */
+  color: #E67E22;
+  /* Cambia il colore per evidenziarlo */
 }
 </style>

@@ -5,6 +5,7 @@ import PaymentComponent from '../components/PaymentComponent.vue';
 import { useRouter } from 'vue-router'; // Importa il router
 
 export default {
+
   data() {
     return {
       dishes: [],
@@ -12,6 +13,7 @@ export default {
       cart: JSON.parse(localStorage.getItem('cart')) || [],
       currentRestaurant: localStorage.getItem('currentRestaurant') || null,
       showPayment: false, // Variabile per mostrare il modulo di pagamento
+      pendingRestaurantSlug: null, // Ristorante in sospeso per il cambio
     };
   },
   components: {
@@ -20,10 +22,29 @@ export default {
   mounted() {
     this.getDishes();
   },
+
   methods: {
     getDishes() {
       const restaurantSlug = this.$route.params.restaurant_slug;
 
+      if (this.currentRestaurant && this.currentRestaurant !== restaurantSlug) {
+        if (this.cart.length > 0) {
+          // Mostra il modale di conferma solo se il carrello non è vuoto
+          this.pendingRestaurantSlug = restaurantSlug;
+          const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+          confirmModal.show();
+        } else {
+          // Se il carrello è vuoto, carica direttamente i piatti del nuovo ristorante
+          this.loadDishes(restaurantSlug);
+        }
+        return;
+      }
+
+      this.loadDishes(restaurantSlug);
+    },
+
+    loadDishes(restaurantSlug) {
+      // Effettua la chiamata per ottenere i piatti del ristorante
       axios.get(`http://127.0.0.1:8000/api/restaurants/${restaurantSlug}/dishes`)
         .then(response => {
           this.dishes = response.data.dishes;
@@ -40,8 +61,46 @@ export default {
       this.currentRestaurant = restaurantSlug;
       localStorage.setItem('currentRestaurant', restaurantSlug);
     },
+
+    confirmRestaurantChange() {
+      // Svuota il carrello e carica i piatti del nuovo ristorante
+      this.clearCart();
+      this.loadDishes(this.pendingRestaurantSlug);
+      this.pendingRestaurantSlug = null;
+      const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+      confirmModal.hide();
+    },
+
+    cancelRestaurantChange() {
+      // Ricarica i piatti del ristorante corrente senza svuotare il carrello
+      this.loadDishes(this.currentRestaurant);
+      this.pendingRestaurantSlug = null;
+      const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+      confirmModal.hide();
+    },
+
+
+    cancelRestaurantChange() {
+      // Ricarica i piatti del ristorante corrente
+      this.loadDishes(this.currentRestaurant);
+      this.pendingRestaurantSlug = null;
+      const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+      confirmModal.hide();
+    },
+
     addToCart(dish) {
-      this.cart.push(dish);
+      // Cerca se il piatto è già nel carrello
+      const cartItem = this.cart.find(item => item.id === dish.id);
+
+      if (cartItem) {
+        // Se il piatto è già nel carrello, incrementa la quantità
+        cartItem.quantity += 1;
+      } else {
+        // Se il piatto non è nel carrello, aggiungilo con quantità 1
+        this.cart.push({ ...dish, quantity: 1 });
+      }
+
+      // Salva il carrello nel localStorage
       localStorage.setItem('cart', JSON.stringify(this.cart));
     },
     removeFromCart(dish) {
@@ -52,8 +111,47 @@ export default {
       this.cart = [];
       localStorage.setItem('cart', JSON.stringify(this.cart));
     },
-  }
-};
+    incrementQuantity(dish) {
+      // Incrementa la quantità del piatto
+      const cartItem = this.cart.find(item => item.id === dish.id);
+      if (cartItem) {
+        cartItem.quantity += 1;
+      }
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+    },
+    decrementQuantity(dish) {
+      // Decrementa la quantità del piatto, ma non scende sotto 1
+      const cartItem = this.cart.find(item => item.id === dish.id);
+      if (cartItem && cartItem.quantity > 1) {
+        cartItem.quantity -= 1;
+      } else if (cartItem && cartItem.quantity === 1) {
+        // Se la quantità è 1, rimuovi il piatto dal carrello
+        this.removeFromCart(dish);
+      }
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+    },
+
+    proceedToOrder() {
+      if (this.cart.length > 0) {
+        this.$router.push('/cart'); // Reindirizza alla vista AppCart
+      }
+    }
+
+
+  },
+
+  computed: {
+    // Calcola il totale dei prodotti inseriti nel carrello
+    totalProducts() {
+      return this.cart.reduce((total, dish) => total + dish.quantity, 0);
+    },
+    // Calcola il totale del prezzo
+    totalPrice() {
+      return this.cart.reduce((total, dish) => total + (dish.price * dish.quantity), 0).toFixed(2);
+    }
+  },
+}
+
 </script>
 
 
@@ -94,15 +192,57 @@ export default {
         <div class="col-12 col-md-4">
           <div class="card cart-card">
             <div class="card-body">
-              <h5 class="card-title">Carrello</h5>
-              <p class="card-text">Aggiungi piatti al carrello per visualizzare qui.</p>
-              <div class="cart-items">
-                <ul>
-                  <li v-for="dish in cart" :key="dish.id">
-                    <span>{{ dish.name }} - €{{ dish.price }}</span>
-                    <button class="btn btn-danger btn-sm" @click="removeFromCart(dish)">Rimuovi</button>
-                  </li>
-                </ul>
+              <h5 class="card-title fs-3 mb-3">Carrello</h5>
+              <p class="card-text" v-if="cart.length === 0">Aggiungi piatti al carrello per visualizzare qui.</p>
+              <div class="cart-items mb-0">
+                <div class="cart-list ps-0" v-if="cart.length > 0">
+
+                  <div class="d-flex mb-2 cart-list-detail flex-column pb-2" v-for="dish in cart" :key="dish.id">
+                    <div class="mb-1 d-flex align-items-center justify-content-between">
+                      <span class="fs-4 cart-name-dish">{{ dish.name }}</span>
+                      <span class="ps-2 fw-bold">€{{ dish.price }}</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between pb-2">
+                      <div class="quantity-controls ms-0">
+                        <button class="rounded border-0 text-white btn-quantity ms-0"
+                          @click="decrementQuantity(dish)">-</button>
+                        <span>{{ dish.quantity }}</span>
+                        <button class="rounded border-0 text-white btn-quantity"
+                          @click="incrementQuantity(dish)">+</button>
+                      </div>
+                      <button class="btn btn-danger btn-sm mt-0" @click="removeFromCart(dish)"><i
+                          class="fa-solid fa-trash"></i></button>
+                    </div>
+                  </div>
+                </div>
+                <p v-if="cart.length === 0">Il carrello è vuoto</p>
+              </div>
+              <!-- Totale dei prodotti e del prezzo -->
+              <div v-if="cart.length > 0" class="cart-totals border-top border-2 border-dark pt-2">
+                <p class="mb-1">Totale prodotti: {{ totalProducts }}</p>
+                <p>Totale da pagare: €{{ totalPrice }}</p>
+              </div>
+              <button class="btn btn-success" v-if="cart.length > 0" @click="proceedToOrder">Procedi all'ordine</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modale di conferma -->
+        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="confirmModalLabel">Puoi ordinare da un solo ristorante! </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Svuota il carrello per cambiare ristorante o completa l'ordine</p>
+              </div>
+              <div class="modal-footer d-flex flex-column align-items-center">
+                <button type="button" class="btn btn-primary" @click="cancelRestaurantChange">Completa
+                  l'ordine</button>
+                <button type="button" class="btn btn-secondary" @click="confirmRestaurantChange">Svuota il
+                  carrello</button>
               </div>
               <button v-if="cart.length > 0" class="btn btn-success" @click="showPayment = true">Procedi al ordine</button>
               <payment-component v-if="showPayment" @paymentSuccess="clearCart"/> <!-- Componente per il pagamento -->
@@ -118,7 +258,6 @@ export default {
 
 <style scoped>
 /* Spazio extra tra l'header e il contenuto */
-.cont-main {}
 
 .container {
   max-width: 1200px;
@@ -192,6 +331,28 @@ export default {
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.btn-secondary {
+  background-color: #8b8783;
+  border-color: #8b8783;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #74716f;
+  border-color: #74716f;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
 .btn-primary:hover {
   background-color: #d35400;
   border-color: #d35400;
@@ -231,5 +392,44 @@ export default {
 .btn-danger:hover {
   background-color: #c0392b;
   border-color: #c0392b;
+}
+
+.quantity-controls {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.quantity-controls button {
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  margin: 0 5px;
+}
+
+.quantity-controls span {
+  font-size: 16px;
+  margin: 0 5px;
+}
+
+.btn-quantity {
+  background-color: #e67e22;
+}
+
+.cart-list {
+  list-style-type: none;
+}
+
+.cart-name-dish {
+  min-width: 80px;
+}
+
+.cart-list .cart-list-detail {
+  border-bottom: 1px solid #ddd;
+  /* Bordo grigio tra i prodotti */
+}
+
+.cart-list .cart-list-detail:last-child {
+  border-bottom: none;
+  /* Rimuove il bordo nell'ultimo prodotto */
 }
 </style>

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import AppHeader from './components/AppHeader.vue';
 import AppHome from './views/AppHome.vue';
 import AppMenu from './views/AppMenu.vue';
+import AppCart from './views/AppCart.vue';
 
 
 
@@ -23,6 +24,11 @@ const router = createRouter({
             path: '/http://127.0.0.1:8000/register',
             name: 'login',
             component: AppHeader
+        },
+        {
+            path: '/cart',
+            name: 'AppCart',
+            component: AppCart,
         },
 
     ]

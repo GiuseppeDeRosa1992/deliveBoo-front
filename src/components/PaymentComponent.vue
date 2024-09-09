@@ -12,6 +12,8 @@
   export default {
     data() {
       return {
+        cart: JSON.parse(localStorage.getItem('cart')) || [],
+
         clientToken: null,
         instance: null,
         loading: false,
@@ -56,7 +58,7 @@
           // Invia il nonce al server Laravel
           axios.post("http://127.0.0.1:8000/api/braintree/checkout", {
             payment_method_nonce: payload.nonce,
-            amount: this.$store.state.cartTotal, // L'importo da pagare
+            amount: this.$cart, // L'importo da pagare
           })
           .then(response => {
             if (response.data.success) {

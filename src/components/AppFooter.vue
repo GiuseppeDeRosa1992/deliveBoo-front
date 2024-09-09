@@ -59,7 +59,7 @@ export default {
 
         <!-- App -->
         <div class="col-md-2 mb-4 text-center">
-          <h4>Se sei un Ristorante</h4>
+          <h4>Sei un Ristoratore?</h4>
           <div class="d-flex flex-column">
             <a class="fs-5 button-login rounded-pill " href="http://127.0.0.1:8000/login" target="_blank">Login</a>
             <a class="fs-5 button-register rounded-pill  " href="http://127.0.0.1:8000/register"
