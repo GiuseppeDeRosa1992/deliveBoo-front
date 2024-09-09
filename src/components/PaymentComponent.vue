@@ -74,6 +74,10 @@ export default {
           });
       });
     },
+    clearCart() {
+            localStorage.removeItem('cart');
+            this.cart = [];
+          },
 
     //FUNZIONE CHE RECUPERA ID DEL RISTORANTE TRAMITE LOCAL STORAGE
     getRestaurantId() {
@@ -94,8 +98,9 @@ export default {
 
     //FUNZIONA ASINCRONA
     async submitOrder() {
-
+      
       //RICHIAMO QUI LA FUNZIONE PAGAMENTO
+      
       this.pay();
       try {
 
@@ -126,6 +131,7 @@ export default {
       catch (error) {
         console.log("errore", error)
       }
+      this.clearCart()
     },
 
   }

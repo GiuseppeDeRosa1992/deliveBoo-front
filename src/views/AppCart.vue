@@ -94,8 +94,7 @@ export default {
                         </div>
                         <div class="text-center mt-4">
                             <button v-if="cart.length > 0" class="btn btn-success" @click="showPayment = true">Procedi
-                                al
-                                ordine</button>
+                                all'ordine</button>
                             <payment-component v-if="showPayment" @paymentSuccess="clearCart" :amount="totalPrice" />
                             <!-- Componente per il pagamento -->
                         </div>
