@@ -9,8 +9,8 @@ export default {
         };
     },
     components: {
-    PaymentComponent, // Registra il componente di pagamento
-  },
+        PaymentComponent, // Registra il componente di pagamento
+    },
     computed: {
         totalProducts() {
             return this.cart.reduce((total, dish) => total + dish.quantity, 0);
@@ -62,8 +62,9 @@ export default {
                         <p class="fs-4">Totale da pagare: €{{ totalPrice }}</p>
                     </div>
                     <div class="text-center mt-4">
-                        <button v-if="cart.length > 0" class="btn btn-success" @click="showPayment = true">Procedi al ordine</button>
-                        <payment-component v-if="showPayment" @paymentSuccess="clearCart" :total-price="totalPrice"/> <!-- Componente per il pagamento -->
+                        <button v-if="cart.length > 0" class="btn btn-success" @click="showPayment = true">Procedi all'ordine</button>
+                        <!-- Passa l'amount (totalPrice) come prop al componente PaymentComponent -->
+                        <payment-component v-if="showPayment" @paymentSuccess="clearCart" :amount="totalPrice" />
                     </div>
                 </div>
             </div>
@@ -127,3 +128,4 @@ h2 {
     border-color: #1e7e34;
 }
 </style>
+

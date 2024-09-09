@@ -244,8 +244,6 @@ export default {
                 <button type="button" class="btn btn-secondary" @click="confirmRestaurantChange">Svuota il
                   carrello</button>
               </div>
-              <button v-if="cart.length > 0" class="btn btn-success" @click="showPayment = true">Procedi al ordine</button>
-              <payment-component v-if="showPayment" @paymentSuccess="clearCart"/> <!-- Componente per il pagamento -->
             </div>
           </div>
         </div>

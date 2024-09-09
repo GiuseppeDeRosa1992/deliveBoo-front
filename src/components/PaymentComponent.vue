@@ -1,4 +1,11 @@
-<template>
+<!-- <template>
+    <div>
+      <div id="dropin-container"></div>
+      <button @click="pay" :disabled="loading">Paga ora</button>
+    </div>
+  </template> -->
+  
+  <template>
     <div>
       <div id="dropin-container"></div>
       <button @click="pay" :disabled="loading">Paga ora</button>
@@ -10,15 +17,9 @@
   import axios from "axios";
   
   export default {
-    props: {
-    totalPrice: {
-      type: String,
-      required: true,
-    }
-  },
+    props: ['amount'], // Passa l'importo come prop
     data() {
       return {
-
         clientToken: null,
         instance: null,
         loading: false,
@@ -41,7 +42,7 @@
         dropin.create({
           authorization: this.clientToken,
           container: '#dropin-container',
-          locale: 'it_IT'  // Imposta la lingua italiana
+          locale: 'it_IT',
         }, (error, instance) => {
           if (error) {
             console.error(error);
@@ -61,15 +62,16 @@
             return;
           }
   
-          // Invia il nonce al server Laravel
+          // Invia il nonce al server Laravel insieme all'importo
           axios.post("http://127.0.0.1:8000/api/braintree/checkout", {
             payment_method_nonce: payload.nonce,
-            amount: this.$cart, // L'importo da pagare
+            amount: this.amount, // Usa l'importo passato come prop
           })
           .then(response => {
             if (response.data.success) {
               alert("Pagamento completato!");
               // Puoi fare ulteriori azioni come svuotare il carrello
+              this.$emit('paymentSuccess');
             } else {
               alert("Errore nel pagamento: " + response.data.message);
             }
@@ -92,11 +94,11 @@
     padding: 10px 20px;
     border: none;
     cursor: pointer;
-    border-radius: 10px;
   }
   button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
   }
   </style>
+  
   
