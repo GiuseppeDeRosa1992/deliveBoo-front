@@ -20,6 +20,25 @@ export default {
         },
     },
     methods: {
+
+        increaseQuantity(dish) {
+            dish.quantity++;
+            this.updateCart();
+        },
+        decreaseQuantity(dish) {
+            if (dish.quantity > 1) {
+                dish.quantity--;
+                this.updateCart();
+            }
+        },
+        removeDish(dish) {
+            this.cart = this.cart.filter(item => item.id !== dish.id);
+            this.updateCart();
+        },
+        updateCart() {
+            localStorage.setItem('cart', JSON.stringify(this.cart));
+        },
+
         processPayment() {
             // Qui puoi aggiungere la logica per il pagamento.
             // Ad esempio, inviare i dati dell'ordine a un server o mostrare una finestra di pagamento.
@@ -52,7 +71,14 @@ export default {
                                 <span class="fs-5">€{{ dish.price }}</span>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mt-2">
-                                <span>Quantità: {{ dish.quantity }}</span>
+                                <span>Quantità:
+                                    <button @click="decreaseQuantity(dish)"
+                                        class="btn btn-sm btn-secondary me-2">-</button>
+                                    {{ dish.quantity }}
+                                    <button @click="increaseQuantity(dish)"
+                                        class="btn btn-sm btn-secondary ms-2">+</button>
+                                </span>
+                                <button @click="removeDish(dish)" class="btn btn-sm btn-danger ms-3">Rimuovi</button>
                             </div>
                             <hr>
                         </div>
@@ -62,16 +88,16 @@ export default {
                         <p class="fs-4">Totale da pagare: €{{ totalPrice }}</p>
                     </div>
                     <div class="text-center mt-4">
-                        <button v-if="cart.length > 0" class="btn btn-success" @click="showPayment = true">Procedi all'ordine</button>
-                        <!-- Passa l'amount (totalPrice) come prop al componente PaymentComponent -->
-                        <payment-component v-if="showPayment" @paymentSuccess="clearCart" :amount="totalPrice" />
+                        <button v-if="cart.length > 0" class="btn btn-success" @click="showPayment = true">Procedi al
+                            ordine</button>
+                        <payment-component v-if="showPayment" @paymentSuccess="clearCart" :total-price="totalPrice" />
+                        <!-- Componente per il pagamento -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
-
 <style scoped>
 .app-cart {
     padding: 60px 0;
@@ -127,5 +153,12 @@ h2 {
     background-color: #218838;
     border-color: #1e7e34;
 }
-</style>
 
+.btn-secondary {
+    padding: 0.3rem 0.6rem;
+}
+
+.btn-danger {
+    padding: 0.3rem 0.6rem;
+}
+</style>
