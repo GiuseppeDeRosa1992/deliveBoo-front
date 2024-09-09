@@ -122,7 +122,7 @@ export default {
         const response = await axios.post('http://127.0.0.1:8000/api/orders', orderObject)
         if (response.status === 200) {
           console.log("ordine effettuato", response.data);
-          this.$router.push({ name: 'thank-you', query: { email: this.email_client } });
+          this.$router.push({ name: 'thank-you', query: { email: this.email_client, total: this.amount, } });
           localStorage.removeItem('cart')
         }
         else {

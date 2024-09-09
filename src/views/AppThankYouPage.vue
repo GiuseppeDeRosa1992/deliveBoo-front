@@ -4,6 +4,7 @@ export default {
   data() {
     return {
       userEmail: this.$route.query.email || 'email non disponibile', // Recupera l'email dalla query
+      total: this.$route.query.total || 'prezzo non disponibile',
     };
   },
 };
@@ -20,7 +21,7 @@ export default {
         <h4 class="email-address">{{ userEmail }}</h4>
         <p>Con tutte le informazioni su come ricevere il tuo ordine.</p>
       </div>
-      <p class="order-number mt-4">Numero Ordine: <strong>#123456</strong></p>
+      <p class="order-number mt-4">Numero Ordine: <strong>12345</strong></p>
       <div class="order-details mt-4">
         <h5 class="mb-3">Dettagli del tuo ordine</h5>
         <ul class="list-group">
@@ -34,7 +35,7 @@ export default {
           </li>
           <li class="list-group-item d-flex justify-content-between">
             <span class="fw-bold">Totale pagato</span>
-            <span class="fw-bold">€20.50</span>
+            <span class="fw-bold">{{ total }}</span>
           </li>
         </ul>
       </div>
