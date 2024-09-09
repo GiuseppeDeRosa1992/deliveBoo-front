@@ -3,10 +3,11 @@ export default {
   name: 'AppThankYouPage',
   data() {
     return {
-      userEmail: this.$route.query.email || 'email non disponibile', // Recupera l'email dalla query
+      userEmail: this.$route.query.email || 'email non disponibile',
       total: this.$route.query.total || 'prezzo non disponibile',
+      dishes: JSON.parse(this.$route.query.dishes || '[]')
     };
-  },
+  }
 };
 </script>
 
@@ -25,17 +26,13 @@ export default {
       <div class="order-details mt-4">
         <h5 class="mb-3">Dettagli del tuo ordine</h5>
         <ul class="list-group">
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Pizza Margherita</span>
-            <span>€8.50</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Sushi Mix</span>
-            <span>€12.00</span>
+          <li v-for="(dish, index) in dishes" :key="index" class="list-group-item d-flex justify-content-between">
+            <span>{{ dish.name_dish }}</span>
+            <span>{{ dish.price_dish }} € (Quantità: {{ dish.quantity }})</span>
           </li>
           <li class="list-group-item d-flex justify-content-between">
             <span class="fw-bold">Totale pagato</span>
-            <span class="fw-bold">{{ total }}</span>
+            <span class="fw-bold">{{ total }} €</span>
           </li>
         </ul>
       </div>
