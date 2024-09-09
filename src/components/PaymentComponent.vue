@@ -75,9 +75,9 @@ export default {
       });
     },
     clearCart() {
-            localStorage.removeItem('cart');
-            this.cart = [];
-          },
+      localStorage.removeItem('cart');
+      this.cart = [];
+    },
 
     //FUNZIONE CHE RECUPERA ID DEL RISTORANTE TRAMITE LOCAL STORAGE
     getRestaurantId() {
@@ -98,9 +98,9 @@ export default {
 
     //FUNZIONA ASINCRONA
     async submitOrder() {
-      
+
       //RICHIAMO QUI LA FUNZIONE PAGAMENTO
-      
+
       this.pay();
       try {
 
@@ -122,6 +122,7 @@ export default {
         const response = await axios.post('http://127.0.0.1:8000/api/orders', orderObject)
         if (response.status === 200) {
           console.log("ordine effettuato", response.data);
+          this.$router.push({ name: 'thank-you', query: { email: this.email_client } });
           localStorage.removeItem('cart')
         }
         else {
