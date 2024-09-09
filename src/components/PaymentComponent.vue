@@ -92,6 +92,7 @@
     padding: 10px 20px;
     border: none;
     cursor: pointer;
+    border-radius: 10px;
   }
   button:disabled {
     background-color: #ccc;
