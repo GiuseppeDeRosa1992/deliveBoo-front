@@ -1,18 +1,4 @@
-<!-- <template>
-    <div>
-      <div id="dropin-container"></div>
-      <button @click="pay" :disabled="loading">Paga ora</button>
-    </div>
-  </template> -->
-  
-  <template>
-    <div>
-      <div id="dropin-container"></div>
-      <button @click="pay" :disabled="loading">Paga ora</button>
-    </div>
-  </template>
-  
-  <script>
+<script>
   import dropin from "braintree-web-drop-in";
   import axios from "axios";
   
@@ -85,9 +71,32 @@
       }
     }
   };
-  </script>
+</script>
   
-  <style scoped>
+<template>
+  <form @submit.prevent="submitPayment" class="row my-3">
+    <div class="col-6 my-3">
+      <label for="name_client">Nome:</label>
+      <input type="text" id="name_client" v-model="name_client" required minlength="3">
+    </div>
+    <div class="col-6 my-3">
+      <label for="email_client">Email:</label>
+      <input type="text" id="email_client" v-model="email_client" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+    </div>
+    <div class="col-6 my-3">
+      <label for="number_phone">Numero di telefono:</label>
+      <input type="text" id="number_phone" v-model="number_phone" required minlength="9" maxlength="10" pattern="">
+    </div>
+    <div class="col-6 my-3">
+      <label for="address_client">Indirizzo:</label>
+      <input type="text" id="address_client" v-model="address_client" required minlength="5" maxlength="255">
+    </div>
+    <div id="dropin-container"></div>
+    <button @click="pay" :disabled="loading">Paga ora</button>
+  </form>
+</template>
+
+<style scoped>
   button {
     background-color: #28a745;
     color: white;
@@ -99,6 +108,6 @@
     background-color: #ccc;
     cursor: not-allowed;
   }
-  </style>
+</style>
   
   
