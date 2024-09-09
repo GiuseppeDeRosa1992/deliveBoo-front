@@ -1,10 +1,16 @@
 <script>
+import PaymentComponent from '../components/PaymentComponent.vue';
+
 export default {
     data() {
         return {
             cart: JSON.parse(localStorage.getItem('cart')) || [],
+            showPayment: false,
         };
     },
+    components: {
+    PaymentComponent, // Registra il componente di pagamento
+  },
     computed: {
         totalProducts() {
             return this.cart.reduce((total, dish) => total + dish.quantity, 0);
@@ -56,7 +62,8 @@ export default {
                         <p class="fs-4">Totale da pagare: €{{ totalPrice }}</p>
                     </div>
                     <div class="text-center mt-4">
-                        <button class="btn btn-success" @click="processPayment">Effettua Pagamento</button>
+                        <button v-if="cart.length > 0" class="btn btn-success" @click="showPayment = true">Procedi al ordine</button>
+                        <payment-component v-if="showPayment" @paymentSuccess="clearCart" :data="cart"/> <!-- Componente per il pagamento -->
                     </div>
                 </div>
             </div>
