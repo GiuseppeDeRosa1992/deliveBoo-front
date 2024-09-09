@@ -62,9 +62,7 @@ export default {
         })
           .then(response => {
             if (response.data.success) {
-              alert("Pagamento completato!");
-              // Puoi fare ulteriori azioni come svuotare il carrello
-              this.$emit('paymentSuccess');
+              this.$router.push({ name: 'thank-you' }); // Reindirizza alla Thank You Page
             } else {
               alert("Errore nel pagamento: " + response.data.message);
             }
