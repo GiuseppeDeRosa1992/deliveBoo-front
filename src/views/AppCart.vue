@@ -65,9 +65,14 @@ export default {
                 </div>
                 <div v-else>
                     <div class="cart-items mb-4">
+
+
                         <div class="cart-item" v-for="dish in cart" :key="dish.id">
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="fs-5">{{ dish.name }}</span>
+                                <div class="d-flex align-items-center">
+                                    <img :src="dish.image" alt="Immagine piatto" class="dish-image me-3">
+                                    <span class="fs-5">{{ dish.name }}</span>
+                                </div>
                                 <span class="fs-5">€{{ dish.price }}</span>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mt-2">
@@ -82,16 +87,18 @@ export default {
                             </div>
                             <hr>
                         </div>
-                    </div>
-                    <div class="cart-totals border-top border-2 border-dark pt-3 mt-4">
-                        <p class="mb-1 fs-5">Totale prodotti: {{ totalProducts }}</p>
-                        <p class="fs-4">Totale da pagare: €{{ totalPrice }}</p>
-                    </div>
-                    <div class="text-center mt-4">
-                        <button v-if="cart.length > 0" class="btn btn-success" @click="showPayment = true">Procedi al
-                            ordine</button>
-                        <payment-component v-if="showPayment" @paymentSuccess="clearCart" :amount="totalPrice" />
-                        <!-- Componente per il pagamento -->
+
+                        <div class="cart-totals border-top border-2 border-dark pt-3 mt-4">
+                            <p class="mb-1 fs-5">Totale prodotti: {{ totalProducts }}</p>
+                            <p class="fs-4">Totale da pagare: €{{ totalPrice }}</p>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button v-if="cart.length > 0" class="btn btn-success" @click="showPayment = true">Procedi
+                                al
+                                ordine</button>
+                            <payment-component v-if="showPayment" @paymentSuccess="clearCart" :amount="totalPrice" />
+                            <!-- Componente per il pagamento -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -160,5 +167,12 @@ h2 {
 
 .btn-danger {
     padding: 0.3rem 0.6rem;
+}
+
+.dish-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
 }
 </style>
