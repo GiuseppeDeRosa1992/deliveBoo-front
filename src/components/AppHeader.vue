@@ -8,68 +8,27 @@ export default {
 </script>
 
 <template>
+  <header class="container-fluid d-flex shadow py-2 mx-0">
+    <div class="row cont-logo1 w-100 justify-content-between align-items-center">
+      <div class="col-6 cont-logo2 d-flex align-items-center">
+        <!-- Logo -->
+        <router-link class="navbar-link fs-4 logo" to="/">
+          <img src="/public/logo-deliveboo-no-scritta.png" alt="">
+        </router-link>
 
-  <header class="container-fluid d-flex  shadow py-2 mx-0 ">
-    <!-- <div class="row cont-header align-items-center">
-
-      <div class="logo col-3 col-lg-1 col-md-2">
-        <a class="navbar-link fs-4" to="/"><img src="/logo-deliveboo-no-scritta.png" alt=""></a>
+        <!-- Link Home -->
+        <router-link class="navbar-link fs-4 text-white text-decoration-none ms-3" to="/">Home</router-link>
       </div>
 
-      <div class="navbar col-5 col-lg-9 col-md-7 d-none d-sm-block ps-3">
-        <a class="navbar-link fs-4" to="/">Home</a>
-      </div>
-
-   
-      <div class="navbar-mobile col-9 d-block d-sm-none d-flex justify-content-end">
-        <a class="text-white fs-3 pe-2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
-          aria-controls="offcanvasExample">
-          <i class="fa-solid fa-bars"></i>
-        </a>
-
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
-          aria-labelledby="offcanvasExampleLabel">
-          <div class="offcanvas-header header-hamb-menu">
-            <h5 class="offcanvas-title text-white fs-3" id="offcanvasExampleLabel">Menù</h5>
-            <button type="button" class="btn-close bg-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body body-hamb-menu">
-            <div class="border-bottom pb-4 pt-2">
-
-            </div>
-            <div class="border-bottom py-4">
-              <h5 class="text-white fs-3">Profilo</h5>
-              <a class="navbar-link fs-5" href="http://127.0.0.1:8000/login">Login</a>
-              <div class="">
-                <a class="navbar-link fs-5" href="http://127.0.0.1:8000/register">Registrati</a>
-              </div>
-            </div>
-            <div class="py-4">
-              <h6 class="text-white fs-3">Note legali</h6>
-              <a class="navbar-link fs-6">Termini & Condizioni</a>
-              <div class="">
-                <a class="navbar-link fs-6">Informativa sulla privacy</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="register col-3 col-lg-2 col-md-2 d-none d-sm-block ">
-        <div class="d-flex align-items-center gap-3 justify-content-end">
-          
-        </div>
-      </div>
-    </div> -->
-    <div class="row cont-logo1">
-      <div class="col-12 cont-logo2">
-        <router-link class="navbar-link fs-4 logo" to="/"><img src="/public/logo-deliveboo-no-scritta.png"
-            alt=""></router-link>
-        <router-link class="navbar-link fs-4 text-white text-decoration-none" to="/">Home</router-link>
+      <!-- Carrello posizionato a destra -->
+      <div class="col-6 d-flex justify-content-end align-items-center">
+        <router-link to="/cart" class="cart-link text-white text-decoration-none position-relative me-3">
+          <i class="fa-solid fa-cart-shopping fa-xl"></i> <!-- Icona carrello -->
+          <span class="ms-2">Carrello</span>
+        </router-link>
       </div>
     </div>
   </header>
-
 </template>
 
 <style scoped>
