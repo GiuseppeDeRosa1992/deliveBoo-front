@@ -10,9 +10,14 @@
   import axios from "axios";
   
   export default {
+    props: {
+    totalPrice: {
+      type: String,
+      required: true,
+    }
+  },
     data() {
       return {
-        cart: JSON.parse(localStorage.getItem('cart')) || [],
 
         clientToken: null,
         instance: null,
@@ -36,6 +41,7 @@
         dropin.create({
           authorization: this.clientToken,
           container: '#dropin-container',
+          locale: 'it_IT'  // Imposta la lingua italiana
         }, (error, instance) => {
           if (error) {
             console.error(error);
