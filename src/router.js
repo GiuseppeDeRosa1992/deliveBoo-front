@@ -3,7 +3,7 @@ import AppHeader from './components/AppHeader.vue';
 import AppHome from './views/AppHome.vue';
 import AppMenu from './views/AppMenu.vue';
 import AppCart from './views/AppCart.vue';
-
+import AppThankYouPage from './views/AppThankYouPage.vue';
 
 
 const router = createRouter({
@@ -29,6 +29,11 @@ const router = createRouter({
             path: '/cart',
             name: 'AppCart',
             component: AppCart,
+        },
+        {
+            path: '/thank-you',
+            name: 'thank-you',
+            component: AppThankYouPage, 
         },
 
     ]
