@@ -32,7 +32,7 @@ export default {
     this.getCart()
 
   },
-  methods: {  
+  methods: {
     initializeBraintree() {
       dropin.create({
         authorization: this.clientToken,
@@ -67,7 +67,8 @@ export default {
         })
           .then(response => {
             if (response.data.success) {
-              this.$router.push({ name: 'thank-you' }); // Reindirizza alla Thank You Page
+              this.submitOrder();
+              this.$emit('paymentSuccess');
             } else {
               alert("Errore nel pagamento: " + response.data.message);
             }
@@ -109,7 +110,7 @@ export default {
       this.isLoading = true; // Inizia il caricamento
 
       //RICHIAMO QUI LA FUNZIONE PAGAMENTO
-      this.pay();
+      // this.pay();
       try {
         const orderObject = {
           restaurant_id: this.getRestaurantId(),
@@ -157,10 +158,11 @@ export default {
 </script>
 
 <template>
-  <form @submit.prevent="submitOrder()" class="row my-3">
+  <form @submit.prevent="pay()" class="row my-3">
     <div class="col-12 col-sm-6 my-2 d-flex flex-column">
       <label class="fs-4" for="name_client">Nome</label>
-      <input class="rounded input-form-cart" type="text" id="name_client" v-model="name_client" required minlength="3" pattern="[A-Za-z\s]{3,}">
+      <input class="rounded input-form-cart" type="text" id="name_client" v-model="name_client" required minlength="3"
+        pattern="[A-Za-z\s]{3,}">
     </div>
     <div class="col-12 col-sm-6 my-2 d-flex flex-column">
       <label class="fs-4" for="email_client">Email</label>
@@ -168,11 +170,13 @@ export default {
     </div>
     <div class="col-12 col-sm-6 my-2 d-flex flex-column">
       <label class="fs-4" for="number_phone">Telefono</label>
-      <input class="rounded input-form-cart" type="text" id="number_phone" v-model="number_phone" required minlength="9" maxlength="10" pattern="\d{9,10}">
+      <input class="rounded input-form-cart" type="text" id="number_phone" v-model="number_phone" required minlength="9"
+        maxlength="10" pattern="\d{9,10}">
     </div>
     <div class="col-12 col-sm-6 my-2 d-flex flex-column">
       <label class="fs-4" for="address_client">Indirizzo</label>
-      <input class="rounded input-form-cart" type="text" id="address_client" v-model="address_client" required minlength="5" maxlength="255" pattern=".{5,255}">
+      <input class="rounded input-form-cart" type="text" id="address_client" v-model="address_client" required
+        minlength="5" maxlength="255" pattern=".{5,255}">
     </div>
     <p class="py-2 mb-0">Tutti i campi sono obbligatori</p>
     <div id="dropin-container"></div>
@@ -215,8 +219,8 @@ color: white;
 
 
 .braintree-sheet__content--form {
-    padding: 10px 15px 10px 10px;
-    display: flex !important;
+  padding: 10px 15px 10px 10px;
+  display: flex !important;
 }
 
 .spinner-border {
