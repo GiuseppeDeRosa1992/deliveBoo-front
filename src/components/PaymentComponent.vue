@@ -119,23 +119,31 @@ export default {
           })),
         }
 
-        const response = await axios.post('http://127.0.0.1:8000/api/orders', orderObject)
+        const response = await axios.post('http://127.0.0.1:8000/api/orders', orderObject);
         if (response.status === 200) {
           console.log("ordine effettuato", response.data);
-          this.$router.push({ name: 'thank-you', query: { email: this.email_client, total: this.amount, } });
-          localStorage.removeItem('cart')
+          this.$router.push({
+            name: 'thank-you',
+            query: {
+              email: this.email_client,
+              total: this.amount,
+              dishes: JSON.stringify(this.cart.map(dish => ({
+                name_dish: dish.name,
+                price_dish: dish.price,
+                quantity: dish.quantity
+              })))
+            }
+          });
+          localStorage.removeItem('cart');
+        } else {
+          console.log("non funziona", response.data);
         }
-        else {
-          console.log("non funziona", response.data)
-        }
+      } catch (error) {
+        console.log("errore", error);
       }
-      catch (error) {
-        console.log("errore", error)
-      }
-      this.clearCart()
-    },
-
-  }
+      this.clearCart();
+    }
+  },
 };
 </script>
 
