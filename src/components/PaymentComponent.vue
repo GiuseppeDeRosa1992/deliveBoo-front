@@ -9,6 +9,7 @@ export default {
       clientToken: null,
       instance: null,
       loading: false,
+      isLoading: false,
       name_client: "",
       email_client: "",
       number_phone: "",
@@ -45,14 +46,17 @@ export default {
         }
       });
     },
+
     pay() {
       if (!this.instance) return;
+      this.isLoading = true; // Imposta il caricamento su true
       this.loading = true;
 
       this.instance.requestPaymentMethod((error, payload) => {
         if (error) {
           console.error(error);
           this.loading = false;
+          this.isLoading = false; // Disabilita il caricamento in caso di errore
           return;
         }
 
@@ -68,13 +72,16 @@ export default {
               alert("Errore nel pagamento: " + response.data.message);
             }
             this.loading = false;
+            this.isLoading = false; // Disabilita il caricamento alla fine del processo
           })
           .catch(error => {
             console.error("Errore nel pagamento:", error);
             this.loading = false;
+            this.isLoading = false; // Disabilita il caricamento alla fine del processo
           });
       });
     },
+
     clearCart() {
       localStorage.removeItem('cart');
       this.cart = [];
@@ -99,12 +106,11 @@ export default {
 
     //FUNZIONA ASINCRONA
     async submitOrder() {
+      this.isLoading = true; // Inizia il caricamento
 
       //RICHIAMO QUI LA FUNZIONE PAGAMENTO
-
       this.pay();
       try {
-
         const orderObject = {
           restaurant_id: this.getRestaurantId(),
           name_client: this.name_client,
@@ -118,7 +124,7 @@ export default {
             price_dish: dish.price,
             quantity: dish.quantity,
           })),
-        }
+        };
 
         const response = await axios.post('http://127.0.0.1:8000/api/orders', orderObject);
         if (response.status === 200) {
@@ -142,7 +148,9 @@ export default {
       } catch (error) {
         console.log("errore", error);
       }
+
       this.clearCart();
+      this.isLoading = false; // Fine del caricamento
     }
   },
 };
@@ -168,7 +176,15 @@ export default {
     </div>
     <p class="py-2 mb-0">Tutti i campi sono obbligatori</p>
     <div id="dropin-container"></div>
-    <button class="btn btn-pay px-3" :disabled="loading">Paga ora</button>
+    <!-- Mostra il pulsante di pagamento o il caricamento -->
+    <button v-if="!isLoading" class="btn btn-pay px-3" :disabled="loading">Paga ora</button>
+
+    <!-- Spinner di caricamento -->
+    <div v-else class="d-flex justify-content-center py-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Caricamento...</span>
+      </div>
+    </div>
   </form>
 </template>
 
@@ -201,5 +217,10 @@ color: white;
 .braintree-sheet__content--form {
     padding: 10px 15px 10px 10px;
     display: flex !important;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
 }
 </style>

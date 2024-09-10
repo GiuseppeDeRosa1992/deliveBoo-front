@@ -12,6 +12,7 @@ export default {
       error: null,
       cart: JSON.parse(localStorage.getItem('cart')) || [],
       currentRestaurant: localStorage.getItem('currentRestaurant') || null,
+      base_url: 'http://127.0.0.1:8000',
       showPayment: false, // Variabile per mostrare il modulo di pagamento
       pendingRestaurantSlug: null, // Ristorante in sospeso per il cambio
     };
@@ -45,7 +46,7 @@ export default {
 
     loadDishes(restaurantSlug) {
       // Effettua la chiamata per ottenere i piatti del ristorante
-      axios.get(`http://127.0.0.1:8000/api/restaurants/${restaurantSlug}/dishes`)
+      axios.get(`${this.base_url}/api/restaurants/${restaurantSlug}/dishes`)
         .then(response => {
           this.dishes = response.data.dishes;
           console.log(this.dishes[0].visible);
@@ -177,7 +178,7 @@ export default {
                     <h5 class="card-title">{{ dish.name }}</h5>
                     <p class="card-text">€{{ dish.price }}</p>
                     <p class="card-description">{{ dish.description }}</p>
-                    
+
                     <button class="btn btn-primary" @click="addToCart(dish)">Aggiungi al Carrello</button>
                   </div>
                 </div>
