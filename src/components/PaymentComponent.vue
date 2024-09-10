@@ -29,8 +29,9 @@ export default {
       });
 
     this.getCart()
+
   },
-  methods: {
+  methods: {  
     initializeBraintree() {
       dropin.create({
         authorization: this.clientToken,
@@ -149,24 +150,25 @@ export default {
 
 <template>
   <form @submit.prevent="submitOrder()" class="row my-3">
-    <div class="col-12 col-sm-6 my-3">
-      <label for="name_client">Nome:</label>
-      <input type="text" id="name_client" v-model="name_client" required minlength="3" pattern="[A-Za-z\s]{3,}">
+    <div class="col-12 col-sm-6 my-2 d-flex flex-column">
+      <label class="fs-4" for="name_client">Nome</label>
+      <input class="rounded input-form-cart" type="text" id="name_client" v-model="name_client" required minlength="3" pattern="[A-Za-z\s]{3,}">
     </div>
-    <div class="col-12 col-sm-6 my-3">
-      <label for="email_client">Email:</label>
-      <input type="email" id="email_client" v-model="email_client" required>
+    <div class="col-12 col-sm-6 my-2 d-flex flex-column">
+      <label class="fs-4" for="email_client">Email</label>
+      <input class="rounded input-form-cart" type="email" id="email_client" v-model="email_client" required>
     </div>
-    <div class="col-12 col-sm-6 my-3">
-      <label for="number_phone">Numero di telefono:</label>
-      <input type="text" id="number_phone" v-model="number_phone" required minlength="9" maxlength="10" pattern="\d{9,10}">
+    <div class="col-12 col-sm-6 my-2 d-flex flex-column">
+      <label class="fs-4" for="number_phone">Telefono</label>
+      <input class="rounded input-form-cart" type="text" id="number_phone" v-model="number_phone" required minlength="9" maxlength="10" pattern="\d{9,10}">
     </div>
-    <div class="col-12 col-sm-6 my-3">
-      <label for="address_client">Indirizzo:</label>
-      <input type="text" id="address_client" v-model="address_client" required minlength="5" maxlength="255" pattern=".{5,255}">
+    <div class="col-12 col-sm-6 my-2 d-flex flex-column">
+      <label class="fs-4" for="address_client">Indirizzo</label>
+      <input class="rounded input-form-cart" type="text" id="address_client" v-model="address_client" required minlength="5" maxlength="255" pattern=".{5,255}">
     </div>
+    <p class="py-2 mb-0">Tutti i campi sono obbligatori</p>
     <div id="dropin-container"></div>
-    <button :disabled="loading">Paga ora</button>
+    <button class="btn btn-pay px-3" :disabled="loading">Paga ora</button>
   </form>
 </template>
 
@@ -182,5 +184,22 @@ button {
 button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+  border: 1px solid grey;
+}
+
+/* .btn-pay:hover {
+background-color: #28a745;
+color: white;
+} */
+
+.input-form-cart {
+  border: 2px solid rgb(230, 230, 230);
+  height: 35px;
+}
+
+
+.braintree-sheet__content--form {
+    padding: 10px 15px 10px 10px;
+    display: flex !important;
 }
 </style>

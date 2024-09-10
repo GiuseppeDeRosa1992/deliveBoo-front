@@ -56,10 +56,10 @@ export default {
 </script>
 
 <template>
-    <div class="app-cart">
+    <div class="app-cart bg-light py-4">
         <div class="container">
-            <h2 class="mb-4 text-center">Riepilogo Ordine</h2>
-            <div class="cart-content">
+            <h2 class="pb-3 text-center">Riepilogo Ordine</h2>
+            <div class="cart-content bg-white rounded shadow">
                 <div v-if="cart.length === 0" class="text-center">
                     <p>Il carrello è vuoto.</p>
                 </div>
@@ -67,28 +67,30 @@ export default {
                     <div class="cart-items mb-4">
 
 
-                        <div class="cart-item" v-for="dish in cart" :key="dish.id">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <img :src="dish.image" alt="Immagine piatto" class="dish-image me-3">
-                                    <span class="fs-5">{{ dish.name }}</span>
+                        <div class="cart-item row align-items-center py-3" v-for="dish in cart" :key="dish.id">
+                            <div class="col-lg-2 col-md-2 col-sm-3 d-flex justify-content-between align-items-center">
+                                <img :src="dish.image" alt="Immagine piatto" class="dish-image me-3 w-100 h-100">
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-9">
+                                <div class="d-flex justify-content-between align-items-center pt-2">
+                                    <span class="fs-4">{{ dish.name }}</span>
+                                    <span class="fs-4"> €{{ dish.price }}</span>
                                 </div>
-                                <span class="fs-5">€{{ dish.price }}</span>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <span>
+                                        <button @click="decreaseQuantity(dish)"
+                                            class="btn btn-sm btn-quantity me-2">-</button>
+                                        {{ dish.quantity }}
+                                        <button @click="increaseQuantity(dish)"
+                                            class="btn btn-sm btn-quantity ms-2">+</button>
+                                    </span>
+                                    <button @click="removeDish(dish)"
+                                        class="btn btn-sm btn-danger ms-3">Rimuovi</button>
+                                </div>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center mt-2">
-                                <span>Quantità:
-                                    <button @click="decreaseQuantity(dish)"
-                                        class="btn btn-sm btn-secondary me-2">-</button>
-                                    {{ dish.quantity }}
-                                    <button @click="increaseQuantity(dish)"
-                                        class="btn btn-sm btn-secondary ms-2">+</button>
-                                </span>
-                                <button @click="removeDish(dish)" class="btn btn-sm btn-danger ms-3">Rimuovi</button>
-                            </div>
-                            <hr>
                         </div>
 
-                        <div class="cart-totals border-top border-2 border-dark pt-3 mt-4">
+                        <div class="cart-totals border-top border-2 border-dark pt-3 mt-4 text-center">
                             <p class="mb-1 fs-5">Totale prodotti: {{ totalProducts }}</p>
                             <p class="fs-4">Totale da pagare: €{{ totalPrice }}</p>
                         </div>
@@ -105,13 +107,9 @@ export default {
     </div>
 </template>
 <style scoped>
-.app-cart {
-    padding: 60px 0;
-    /* Spazio tra header e footer */
-}
-
 .container {
-    max-width: 900px;
+    min-width: 280px;
+    max-width: 1000px;
     margin: auto;
 }
 
@@ -123,8 +121,7 @@ h2 {
 .cart-content {
     background: #e4e2e2;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 .cart-items {
@@ -133,6 +130,11 @@ h2 {
 
 .cart-item {
     padding: 10px 0;
+    border-bottom: 1px solid rgb(223, 223, 223);
+}
+
+.cart-item:last-child(1) {
+    border: none;
 }
 
 .cart-item hr {
@@ -160,8 +162,10 @@ h2 {
     border-color: #1e7e34;
 }
 
-.btn-secondary {
+.btn-quantity {
     padding: 0.3rem 0.6rem;
+    background-color: #e67e22;
+    color: white;
 }
 
 .btn-danger {
