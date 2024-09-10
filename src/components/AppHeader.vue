@@ -8,12 +8,13 @@ export default {
 </script>
 
 <template>
-  <header class="container-fluid d-flex shadow py-2 mx-0">
-    <div class="row cont-logo1 w-100 justify-content-between align-items-center">
-      <div class="col-6 cont-logo2 d-flex align-items-center">
+  <header class="container-fluid d-flex shadow py-2 mx-0 bg-orange">
+    <div class="row w-100 justify-content-between align-items-center">
+      <!-- Logo e Home -->
+      <div class="col-6 d-flex align-items-center">
         <!-- Logo -->
-        <router-link class="navbar-link fs-4 logo" to="/">
-          <img src="/public/logo-deliveboo-no-scritta.png" alt="">
+        <router-link class="navbar-link logo" to="/">
+          <img src="/public/logo-deliveboo-no-scritta.png" alt="logo" class="img-fluid logo-img">
         </router-link>
 
         <!-- Link Home -->
@@ -22,9 +23,10 @@ export default {
 
       <!-- Carrello posizionato a destra -->
       <div class="col-6 d-flex justify-content-end align-items-center">
-        <router-link to="/cart" class="cart-link text-white text-decoration-none position-relative me-3">
+        <router-link to="/cart"
+          class="cart-link text-white text-decoration-none position-relative d-flex align-items-center">
           <i class="fa-solid fa-cart-shopping fa-xl"></i> <!-- Icona carrello -->
-          <span class="ms-2">Carrello</span>
+          <span class="ms-2 d-none d-md-inline">Carrello</span>
         </router-link>
       </div>
     </div>
@@ -35,57 +37,38 @@ export default {
 header {
   height: 5rem;
   background-color: #E67E22;
-
-}
-
-.cont-logo1 {
-  height: 100%;
-}
-
-.cont-logo2 {
-  height: 100%;
-}
-
-.logo {
-  height: 100%;
 }
 
 .logo img {
-  height: 100%;
+  max-height: 60px;
 }
 
-/* .cont-header {
-  height: 100%;
-  width: 1200px;
+
+@media (max-width: 768px) {
+  .logo img {
+    max-height: 50px;
+  }
+
+  .cart-link span {
+    display: none;
+  }
+
+  .cart-link i {
+    font-size: 1.5rem;
+  }
 }
 
-.logo {
-  height: 100%;
-}
+@media (max-width: 576px) {
+  .logo img {
+    max-height: 40px;
+  }
 
-.logo img {
-  height: 100%;
-}
+  .fs-4 {
+    font-size: 1.1rem;
+  }
 
-.button:hover {
-  color: #E67E22;
+  .cart-link i {
+    font-size: 1.25rem;
+  }
 }
-
-.navbar-link {
-  color: white;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.navbar-link:hover {
-  color: #2C3E50;
-}
-
-.header-hamb-menu {
-  background-color: #2C3E50;
-}
-
-.body-hamb-menu {
-  background-color: #E67E22;
-} */
 </style>
