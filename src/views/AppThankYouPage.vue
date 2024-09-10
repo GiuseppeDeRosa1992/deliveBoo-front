@@ -5,6 +5,7 @@ export default {
     return {
       userEmail: this.$route.query.email || 'email non disponibile', // Recupera l'email dalla query
       total: this.$route.query.total || 'prezzo non disponibile',
+      dishes: JSON.parse(this.$route.query.dishes || '[]'),
     };
   },
 };
@@ -34,18 +35,10 @@ export default {
         <div class="order-details mt-4">
           <h5 class="mb-3">Dettagli del tuo ordine</h5>
           <ul class="list-group px-5">
-            <li class="list-group-item d-flex justify-content-between">
-              <span>Pizza Margherita</span>
-              <span>€8.50</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>Sushi Mix</span>
-              <span>€12.00</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between">
-              <span class="fw-bold">Totale pagato</span>
-              <span class="fw-bold">€{{ total }}</span>
-            </li>
+            <li v-for="(dish, index) in dishes" :key="index" class="list-group-item d-flex justify-content-between">
+            <span>{{ dish.name_dish }}</span>
+            <span>{{ dish.price_dish }} € (Quantità: {{ dish.quantity }})</span>
+          </li>
           </ul>
         </div>
 
