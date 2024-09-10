@@ -28,8 +28,8 @@ export default {
           <p>Con tutte le informazioni su come ricevere il tuo ordine.</p>
         </div>
 
-        <!-- Numero Ordine -->
-        <p class="order-number mt-4">Numero Ordine: <strong>12345</strong></p>
+        <!-- Numero Ordine
+        <p class="order-number mt-4">Numero Ordine: <strong>12345</strong></p> -->
 
         <!-- Dettagli ordine -->
         <div class="order-details mt-4">
