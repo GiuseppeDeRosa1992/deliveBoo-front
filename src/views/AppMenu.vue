@@ -48,6 +48,7 @@ export default {
       axios.get(`http://127.0.0.1:8000/api/restaurants/${restaurantSlug}/dishes`)
         .then(response => {
           this.dishes = response.data.dishes;
+          console.log(this.dishes[0].visible);
         })
         .catch(error => {
           this.error = 'Errore nel caricamento dei piatti';
@@ -164,8 +165,8 @@ export default {
         <div class="col-12 col-md-8 mb-4">
           <div class="row justify-content-center">
             <template v-if="dishes.length > 0">
-              <div class="col-12 col-sm-6 col-md-4 mb-3" v-for="dish in dishes" :key="dish.id">
-                <div class="card dish-card">
+              <div class="col-12 col-sm-6 col-md-4 mb-3" v-for="dish in dishes" :key="dish.id "v-show="dish.visible" >
+                <div  class="card dish-card" >
                   <template v-if="!dish.image.startsWith('http')">
                     <img class="card-img-top dish-image" :src="base_url + '/storage/' + dish.image" alt="">
                   </template>
