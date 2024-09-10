@@ -149,19 +149,19 @@ export default {
 
 <template>
   <form @submit.prevent="submitOrder()" class="row my-3">
-    <div class="col-6 my-3">
+    <div class="col-12 col-sm-6 my-3">
       <label for="name_client">Nome:</label>
       <input type="text" id="name_client" v-model="name_client" required minlength="3" pattern="[A-Za-z\s]{3,}">
     </div>
-    <div class="col-6 my-3">
+    <div class="col-12 col-sm-6 my-3">
       <label for="email_client">Email:</label>
       <input type="email" id="email_client" v-model="email_client" required>
     </div>
-    <div class="col-6 my-3">
+    <div class="col-12 col-sm-6 my-3">
       <label for="number_phone">Numero di telefono:</label>
       <input type="text" id="number_phone" v-model="number_phone" required minlength="9" maxlength="10" pattern="\d{9,10}">
     </div>
-    <div class="col-6 my-3">
+    <div class="col-12 col-sm-6 my-3">
       <label for="address_client">Indirizzo:</label>
       <input type="text" id="address_client" v-model="address_client" required minlength="5" maxlength="255" pattern=".{5,255}">
     </div>
