@@ -39,6 +39,10 @@ export default {
             <span>{{ dish.name_dish }}</span>
             <span>{{ dish.price_dish }} € (Quantità: {{ dish.quantity }})</span>
           </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span class="fw-bold">Totale pagato</span>
+            <span class="fw-bold">{{ total }} €</span>
+          </li>
           </ul>
         </div>
 
