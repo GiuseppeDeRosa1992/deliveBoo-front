@@ -11,7 +11,7 @@ export default {
 </script>
 
 <template>
-  <footer class="footer bg-dark text-white py-4">
+  <footer class="footer bg-dark text-white pt-4  d-flex flex-column ">
     <div class="container-fluid">
       <div class="row text-center text-md-start">
         <div class="col-md-1"></div>
@@ -72,7 +72,7 @@ export default {
     </div>
 
     <!-- Footer Bottom -->
-    <div class="bg-secondary py-2 mt-4">
+    <div class="bg-secondary py-2 mt-4 justify-self-end">
       <div class="container-fluid text-center">
         <p class="mb-0 text-muted">&copy; 2024 DeliveBoo. All rights reserved.</p>
       </div>

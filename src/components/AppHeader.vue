@@ -26,7 +26,7 @@ export default {
         <router-link to="/cart"
           class="cart-link text-white text-decoration-none position-relative d-flex align-items-center">
           <i class="fa-solid fa-cart-shopping fa-xl"></i> <!-- Icona carrello -->
-          <span class="ms-2 d-none d-md-inline">Carrello</span>
+          <span class="ms-2 d-none d-md-inline"></span>
         </router-link>
       </div>
     </div>
