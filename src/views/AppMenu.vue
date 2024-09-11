@@ -15,6 +15,7 @@ export default {
       base_url: 'http://127.0.0.1:8000',
       showPayment: false, // Variabile per mostrare il modulo di pagamento
       pendingRestaurantSlug: null, // Ristorante in sospeso per il cambio
+      restaurantName: this.$route.query.restaurant_name || 'Ristorante',
     };
   },
   components: {
@@ -161,7 +162,10 @@ export default {
 <template>
   <div class="cont-main">
     <div class="container">
+      
+      <h1 class="text-center my-5">{{ restaurantName }}</h1>
       <div class="row justify-content-between mt-5">
+
         <!-- Lista dei piatti -->
         <div class="col-12 col-md-8 mb-4">
           <div class="row justify-content-center">
