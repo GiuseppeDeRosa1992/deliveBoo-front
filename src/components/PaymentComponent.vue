@@ -113,52 +113,51 @@ export default {
 
     //FUNZIONA ASINCRONA
     async submitOrder() {
-      this.isLoading = true; // Inizia il caricamento
+  this.isLoading = true; // Inizia il caricamento
 
-      //RICHIAMO QUI LA FUNZIONE PAGAMENTO
-      // this.pay();
-      try {
-        const orderObject = {
-          restaurant_id: this.getRestaurantId(),
-          name_client: this.name_client,
-          email_client: this.email_client,
-          number_phone: this.number_phone,
-          address_client: this.address_client,
-          total: this.amount,
-          dishes: this.cart.map(dish => ({
-            dish_id: dish.id,
-            name_dish: dish.name,
-            price_dish: dish.price,
-            quantity: dish.quantity,
-          })),
-        };
+  try {
+    const orderObject = {
+      restaurant_id: this.getRestaurantId(),
+      name_client: this.name_client,
+      email_client: this.email_client,
+      number_phone: this.number_phone,
+      address_client: this.address_client,
+      total: this.amount,
+      dishes: this.cart.map(dish => ({
+        dish_id: dish.id,
+        name_dish: dish.name,
+        price_dish: dish.price,
+        quantity: dish.quantity,
+      })),
+    };
 
-        const response = await axios.post('http://127.0.0.1:8000/api/orders', orderObject);
-        if (response.status === 200) {
-          console.log("ordine effettuato", response.data);
-          this.$router.push({
-            name: 'thank-you',
-            query: {
-              email: this.email_client,
-              total: this.amount,
-              dishes: JSON.stringify(this.cart.map(dish => ({
-                name_dish: dish.name,
-                price_dish: dish.price,
-                quantity: dish.quantity
-              })))
-            }
-          });
-          localStorage.removeItem('cart');
-        } else {
-          console.log("non funziona", response.data);
-        }
-      } catch (error) {
-        console.log("errore", error);
-      }
+    const response = await axios.post('http://127.0.0.1:8000/api/orders', orderObject);
+    if (response.status === 200) {
+      console.log("ordine effettuato", response.data);
 
-      this.clearCart();
-      this.isLoading = false; // Fine del caricamento
+      // Salva i dati nel localStorage prima del reindirizzamento
+      localStorage.setItem('email', this.email_client);
+      localStorage.setItem('total', this.amount);
+      localStorage.setItem('dishes', JSON.stringify(this.cart.map(dish => ({
+        name_dish: dish.name,
+        price_dish: dish.price,
+        quantity: dish.quantity
+      }))));
+
+      // Reindirizza alla pagina "thank-you" senza passare dati tramite query
+      this.$router.push({ name: 'thank-you' });
+
+      localStorage.removeItem('cart'); // Svuota il carrello dopo l'ordine
+    } else {
+      console.log("non funziona", response.data);
     }
+  } catch (error) {
+    console.log("errore", error);
+  }
+
+  this.isLoading = false; // Fine del caricamento
+}
+
   },
 };
 </script>

@@ -3,10 +3,16 @@ export default {
   name: 'AppThankYouPage',
   data() {
     return {
-      userEmail: this.$route.query.email || 'email non disponibile', // Recupera l'email dalla query
-      total: this.$route.query.total || 'prezzo non disponibile',
-      dishes: JSON.parse(this.$route.query.dishes || '[]'),
+      userEmail: localStorage.getItem('email') || 'email non disponibile',
+      total: localStorage.getItem('total') || 'prezzo non disponibile',
+      dishes: JSON.parse(localStorage.getItem('dishes') || '[]'),
     };
+  },
+  mounted() {
+    // Cancella i dati dal localStorage dopo averli usati
+    localStorage.removeItem('email');
+    localStorage.removeItem('total');
+    localStorage.removeItem('dishes');
   },
 };
 </script>
