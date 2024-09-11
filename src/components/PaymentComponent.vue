@@ -166,7 +166,8 @@ export default {
     </div>
     <div class="col-12 col-sm-6 my-2 d-flex flex-column">
       <label class="fs-4" for="email_client">Email</label>
-      <input class="rounded input-form-cart" type="email" id="email_client" v-model="email_client" required>
+      <input class="rounded input-form-cart" type="email" id="email_client" v-model="email_client" required
+        pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$" title="Per favore, inserisci un'email valida">
     </div>
     <div class="col-12 col-sm-6 my-2 d-flex flex-column">
       <label class="fs-4" for="number_phone">Telefono</label>

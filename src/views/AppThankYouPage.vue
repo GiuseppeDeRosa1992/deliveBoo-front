@@ -36,18 +36,18 @@ export default {
           <h5 class="mb-3">Dettagli del tuo ordine</h5>
           <ul class="list-group px-5">
             <li v-for="(dish, index) in dishes" :key="index" class="list-group-item d-flex justify-content-between">
-            <span>{{ dish.name_dish }}</span>
-            <span>{{ dish.price_dish }} € (Quantità: {{ dish.quantity }})</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <span class="fw-bold">Totale pagato</span>
-            <span class="fw-bold">{{ total }} €</span>
-          </li>
+              <span>{{ dish.name_dish }}</span>
+              <span>{{ dish.price_dish }} € (Quantità: {{ dish.quantity }})</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span class="fw-bold">Totale pagato</span>
+              <span class="fw-bold">{{ total }} €</span>
+            </li>
           </ul>
         </div>
 
         <!-- Tempi di consegna -->
-        <p class="delivery-time mt-4">Il tuo ordine verrà consegnato entro <strong>30-45 minuti</strong>.</p>
+        <!-- <p class="delivery-time mt-4">Il tuo ordine verrà consegnato entro <strong>30-45 minuti</strong>.</p> -->
 
         <!-- Social Media -->
         <div class="social-media mt-4">
@@ -73,7 +73,6 @@ export default {
 </template>
 
 <style scoped>
-
 .text-warning {
   color: #E67E22 !important;
 }
