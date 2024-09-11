@@ -69,16 +69,22 @@ export default {
             if (response.data.success) {
               this.submitOrder();
               this.$emit('paymentSuccess');
+
+              setTimeout(() => {
+                this.isLoading = false; // Riabilita il pulsante dopo 10 secondi
+              }, 10000); // 10 secondi di delay
+
             } else {
               alert("Errore nel pagamento: " + response.data.message);
+              this.isLoading = false; // Riabilita il pulsante in caso di errore
             }
             this.loading = false;
-            this.isLoading = false; // Disabilita il caricamento alla fine del processo
+            
           })
           .catch(error => {
             console.error("Errore nel pagamento:", error);
             this.loading = false;
-            this.isLoading = false; // Disabilita il caricamento alla fine del processo
+            this.isLoading = false; // Riabilita il pulsante in caso di errore
           });
       });
     },
@@ -182,7 +188,8 @@ export default {
     <p class="py-2 mb-0">Tutti i campi sono obbligatori</p>
     <div id="dropin-container"></div>
     <!-- Mostra il pulsante di pagamento o il caricamento -->
-    <button v-if="!isLoading" class="btn btn-pay px-3" :disabled="loading">Paga ora</button>
+    <button v-if="!isLoading" class="btn btn-pay px-3" :disabled="isLoading || loading">Paga ora</button>
+
 
     <!-- Spinner di caricamento -->
     <div v-else class="d-flex justify-content-center py-4">
