@@ -52,6 +52,10 @@ export default {
 
     },
 
+    saveRestaurantName(name) {
+    localStorage.setItem('restaurant_name', name); // Salva il nome del ristorante in localStorage
+  },
+
   },
 
   computed: {
@@ -144,10 +148,11 @@ export default {
                   </span>
                 </p>
                 <div class="">
-                  <router-link class="btn btn-success"
-                    :to="{ name: 'menu', params: { restaurant_slug: restaurant.slug }, query: { restaurant_name: restaurant.name } }">
+                  <router-link class="btn btn-success" @click.native="saveRestaurantName(restaurant.name)"
+                    :to="{ name: 'menu', params: { restaurant_slug: restaurant.slug } }">
                     Visualizza Menù
                   </router-link>
+
                 </div>
               </div>
             </div>

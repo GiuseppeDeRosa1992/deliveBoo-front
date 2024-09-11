@@ -15,13 +15,14 @@ export default {
       base_url: 'http://127.0.0.1:8000',
       showPayment: false, // Variabile per mostrare il modulo di pagamento
       pendingRestaurantSlug: null, // Ristorante in sospeso per il cambio
-      restaurantName: this.$route.query.restaurant_name || 'Ristorante',
+      restaurantName: localStorage.getItem('restaurant_name') || 'Nome non disponibile',
     };
   },
   components: {
     PaymentComponent, // Registra il componente di pagamento
   },
   mounted() {
+    console.log('Nome del ristorante:', this.restaurantName);
     this.getDishes();
   },
 
