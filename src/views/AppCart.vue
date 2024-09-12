@@ -1,6 +1,5 @@
 <script>
 import PaymentComponent from '../components/PaymentComponent.vue';
-import { EventBus } from '../eventBus'; // Importa l'EventBus
 
 export default {
     data() {
@@ -8,9 +7,6 @@ export default {
             cart: JSON.parse(localStorage.getItem('cart')) || [],
             showPayment: false,
         };
-    },
-    mounted() {
-        this.updateCartCount(); // Assicurati che il conteggio del carrello sia aggiornato inizialmente
     },
     components: {
         PaymentComponent, // Registra il componente di pagamento
@@ -24,10 +20,6 @@ export default {
         },
     },
     methods: {
-        updateCartCount() {
-            const totalProducts = this.cart.reduce((total, dish) => total + dish.quantity, 0);
-            EventBus.updateCartCount(totalProducts); // Aggiorna il conteggio del carrello nell'EventBus
-        },
 
         increaseQuantity(dish) {
             dish.quantity++;
@@ -45,7 +37,6 @@ export default {
         },
         updateCart() {
             localStorage.setItem('cart', JSON.stringify(this.cart));
-            this.updateCartCount();
         },
 
         processPayment() {
@@ -58,7 +49,6 @@ export default {
         clearCart() {
             localStorage.removeItem('cart');
             this.cart = [];
-            this.updateCartCount();
         }
     },
 };

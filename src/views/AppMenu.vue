@@ -1,7 +1,6 @@
 <script>
 import axios from 'axios';
 import PaymentComponent from '../components/PaymentComponent.vue';
-import { EventBus } from '../eventBus'; // Importa l'EventBus
 
 import { useRouter } from 'vue-router'; // Importa il router
 
@@ -25,14 +24,9 @@ export default {
   mounted() {
     console.log('Nome del ristorante:', this.restaurantName);
     this.getDishes();
-    this.updateCartCount(); // Aggiorna il conteggio iniziale del carrello
   },
 
   methods: {
-    updateCartCount() {
-      const totalProducts = this.cart.reduce((total, dish) => total + dish.quantity, 0);
-      EventBus.updateCartCount(totalProducts); // Aggiorna l'EventBus
-    },
     getDishes() {
       const restaurantSlug = this.$route.params.restaurant_slug;
 
@@ -112,12 +106,10 @@ export default {
 
       // Salva il carrello nel localStorage
       localStorage.setItem('cart', JSON.stringify(this.cart));
-      this.updateCartCount(); // Aggiorna il conteggio del carrello
     },
     removeFromCart(dish) {
       this.cart = this.cart.filter(item => item.id !== dish.id);
       localStorage.setItem('cart', JSON.stringify(this.cart));
-      this.updateCartCount(); // Aggiorna il conteggio del carrello
     },
     clearCart() {
       this.cart = [];
@@ -130,7 +122,6 @@ export default {
         cartItem.quantity += 1;
       }
       localStorage.setItem('cart', JSON.stringify(this.cart));
-      this.updateCartCount();
     },
     decrementQuantity(dish) {
       // Decrementa la quantità del piatto, ma non scende sotto 1
@@ -142,7 +133,6 @@ export default {
         this.removeFromCart(dish);
       }
       localStorage.setItem('cart', JSON.stringify(this.cart));
-      this.updateCartCount();
     },
 
     proceedToOrder() {
