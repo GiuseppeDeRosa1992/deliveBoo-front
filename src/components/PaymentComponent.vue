@@ -1,6 +1,7 @@
 <script>
 import dropin from "braintree-web-drop-in";
 import axios from "axios";
+import { EventBus } from "../eventBus";
 
 export default {
   props: ['amount'], // Passa l'importo come prop
@@ -79,7 +80,7 @@ export default {
               this.isLoading = false; // Riabilita il pulsante in caso di errore
             }
             this.loading = false;
-            
+
           })
           .catch(error => {
             console.error("Errore nel pagamento:", error);
@@ -87,6 +88,8 @@ export default {
             this.isLoading = false; // Riabilita il pulsante in caso di errore
           });
       });
+
+      EventBus.updateCartCount(0)
     },
 
     clearCart() {
@@ -113,50 +116,50 @@ export default {
 
     //FUNZIONA ASINCRONA
     async submitOrder() {
-  this.isLoading = true; // Inizia il caricamento
+      this.isLoading = true; // Inizia il caricamento
 
-  try {
-    const orderObject = {
-      restaurant_id: this.getRestaurantId(),
-      name_client: this.name_client,
-      email_client: this.email_client,
-      number_phone: this.number_phone,
-      address_client: this.address_client,
-      total: this.amount,
-      dishes: this.cart.map(dish => ({
-        dish_id: dish.id,
-        name_dish: dish.name,
-        price_dish: dish.price,
-        quantity: dish.quantity,
-      })),
-    };
+      try {
+        const orderObject = {
+          restaurant_id: this.getRestaurantId(),
+          name_client: this.name_client,
+          email_client: this.email_client,
+          number_phone: this.number_phone,
+          address_client: this.address_client,
+          total: this.amount,
+          dishes: this.cart.map(dish => ({
+            dish_id: dish.id,
+            name_dish: dish.name,
+            price_dish: dish.price,
+            quantity: dish.quantity,
+          })),
+        };
 
-    const response = await axios.post('http://127.0.0.1:8000/api/orders', orderObject);
-    if (response.status === 200) {
-      console.log("ordine effettuato", response.data);
+        const response = await axios.post('http://127.0.0.1:8000/api/orders', orderObject);
+        if (response.status === 200) {
+          console.log("ordine effettuato", response.data);
 
-      // Salva i dati nel localStorage prima del reindirizzamento
-      localStorage.setItem('email', this.email_client);
-      localStorage.setItem('total', this.amount);
-      localStorage.setItem('dishes', JSON.stringify(this.cart.map(dish => ({
-        name_dish: dish.name,
-        price_dish: dish.price,
-        quantity: dish.quantity
-      }))));
+          // Salva i dati nel localStorage prima del reindirizzamento
+          localStorage.setItem('email', this.email_client);
+          localStorage.setItem('total', this.amount);
+          localStorage.setItem('dishes', JSON.stringify(this.cart.map(dish => ({
+            name_dish: dish.name,
+            price_dish: dish.price,
+            quantity: dish.quantity
+          }))));
 
-      // Reindirizza alla pagina "thank-you" senza passare dati tramite query
-      this.$router.push({ name: 'thank-you' });
+          // Reindirizza alla pagina "thank-you" senza passare dati tramite query
+          this.$router.push({ name: 'thank-you' });
 
-      localStorage.removeItem('cart'); // Svuota il carrello dopo l'ordine
-    } else {
-      console.log("non funziona", response.data);
+          localStorage.removeItem('cart'); // Svuota il carrello dopo l'ordine
+        } else {
+          console.log("non funziona", response.data);
+        }
+      } catch (error) {
+        console.log("errore", error);
+      }
+
+      this.isLoading = false; // Fine del caricamento
     }
-  } catch (error) {
-    console.log("errore", error);
-  }
-
-  this.isLoading = false; // Fine del caricamento
-}
 
   },
 };
