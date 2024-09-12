@@ -9,6 +9,7 @@ export default {
 
   data() {
     return {
+      restaurants: [], // Ristoranti recuperati dall'API
       dishes: [],
       error: null,
       cart: JSON.parse(localStorage.getItem('cart')) || [],
@@ -23,12 +24,26 @@ export default {
     PaymentComponent, // Registra il componente di pagamento
   },
   mounted() {
-    console.log('Nome del ristorante:', this.restaurantName);
+    this.chiamataRestaurant();
     this.getDishes();
     this.updateCartCount(); // Aggiorna il conteggio iniziale del carrello
   },
 
   methods: {
+    chiamataRestaurant() {
+      // Effettua la chiamata GET con i parametri
+      axios.get(`${this.base_url}/api/restaurants`)
+        .then(result => {
+          this.restaurants = result.data; // Accedi ai ristoranti nella risposta
+          console.log(this.restaurants);
+        })
+        .catch(error => {
+          console.error('Errore nel recupero dei dati:', error);
+          this.error = 'Errore nel caricamento dei ristoranti';
+          console.log("non funziona ");
+        })
+    },
+
     updateCartCount() {
       const totalProducts = this.cart.reduce((total, dish) => total + dish.quantity, 0);
       EventBus.updateCartCount(totalProducts); // Aggiorna l'EventBus
@@ -168,6 +183,10 @@ export default {
     // Calcola il totale del prezzo
     totalPrice() {
       return this.cart.reduce((total, dish) => total + (dish.price * dish.quantity), 0).toFixed(2);
+    },
+    getCurrentRestaurant() {
+      // Assicurati che 'slug' o 'id' sia il campo corretto per il confronto
+      return this.restaurants.find(restaurant => restaurant.slug === this.currentRestaurant);
     }
   },
 }
@@ -180,8 +199,11 @@ export default {
   <div class="cont-main">
     <div class="container">
 
-      <h1 class="text-center my-5">{{ restaurantName }}</h1>
+
       <div class="row justify-content-between mt-5">
+        <div v-if="getCurrentRestaurant">
+          <h1>{{ getCurrentRestaurant.name }}</h1>
+        </div>
 
         <!-- Lista dei piatti -->
         <div class="col-12 col-md-8 mb-4">
