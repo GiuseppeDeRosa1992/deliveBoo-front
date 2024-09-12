@@ -33,9 +33,22 @@ export default {
       const totalProducts = this.cart.reduce((total, dish) => total + dish.quantity, 0);
       EventBus.updateCartCount(totalProducts); // Aggiorna l'EventBus
     },
-
     getDishes() {
       const restaurantSlug = this.$route.params.restaurant_slug;
+
+      if (this.currentRestaurant && this.currentRestaurant !== restaurantSlug) {
+        if (this.cart.length > 0) {
+          // Mostra il modale di conferma solo se il carrello non è vuoto
+          this.pendingRestaurantSlug = restaurantSlug;
+          const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+          confirmModal.show();
+        } else {
+          // Se il carrello è vuoto, carica direttamente i piatti del nuovo ristorante
+          this.loadDishes(restaurantSlug);
+        }
+        return;
+      }
+
       this.loadDishes(restaurantSlug);
     },
 
@@ -50,18 +63,42 @@ export default {
           this.error = 'Errore nel caricamento dei piatti';
           console.error(error);
         });
-    },
-    addToCart(dish) {
-      const restaurantSlug = this.$route.params.restaurant_slug;
 
       if (this.currentRestaurant && this.currentRestaurant !== restaurantSlug) {
-        // Se il ristorante è diverso, mostra il modale di conferma
-        this.pendingRestaurantSlug = restaurantSlug;
-        const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
-        confirmModal.show();
-        return;
+        this.clearCart();
       }
 
+      this.currentRestaurant = restaurantSlug;
+      localStorage.setItem('currentRestaurant', restaurantSlug);
+    },
+
+    confirmRestaurantChange() {
+      // Svuota il carrello e carica i piatti del nuovo ristorante
+      this.clearCart();
+      this.loadDishes(this.pendingRestaurantSlug);
+      this.pendingRestaurantSlug = null;
+      const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+      confirmModal.hide();
+    },
+
+    cancelRestaurantChange() {
+      // Ricarica i piatti del ristorante corrente senza svuotare il carrello
+      this.loadDishes(this.currentRestaurant);
+      this.pendingRestaurantSlug = null;
+      const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+      confirmModal.hide();
+    },
+
+
+    cancelRestaurantChange() {
+      // Ricarica i piatti del ristorante corrente
+      this.loadDishes(this.currentRestaurant);
+      this.pendingRestaurantSlug = null;
+      const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+      confirmModal.hide();
+    },
+
+    addToCart(dish) {
       // Cerca se il piatto è già nel carrello
       const cartItem = this.cart.find(item => item.id === dish.id);
 
@@ -76,21 +113,6 @@ export default {
       // Salva il carrello nel localStorage
       localStorage.setItem('cart', JSON.stringify(this.cart));
       this.updateCartCount(); // Aggiorna il conteggio del carrello
-      this.currentRestaurant = restaurantSlug;
-      localStorage.setItem('currentRestaurant', restaurantSlug);
-    },
-    confirmRestaurantChange() {
-      // Svuota il carrello e carica i piatti del nuovo ristorante
-      this.clearCart();
-      this.loadDishes(this.pendingRestaurantSlug);
-      this.pendingRestaurantSlug = null;
-      const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
-      confirmModal.hide();
-    },
-    cancelRestaurantChange() {
-      this.pendingRestaurantSlug = null;
-      const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
-      confirmModal.hide();
     },
     removeFromCart(dish) {
       this.cart = this.cart.filter(item => item.id !== dish.id);
@@ -101,9 +123,8 @@ export default {
       this.cart = [];
       localStorage.setItem('cart', JSON.stringify(this.cart));
     },
-
-    // Incrementa la quantità del piatto
     incrementQuantity(dish) {
+      // Incrementa la quantità del piatto
       const cartItem = this.cart.find(item => item.id === dish.id);
       if (cartItem) {
         cartItem.quantity += 1;
@@ -111,9 +132,8 @@ export default {
       localStorage.setItem('cart', JSON.stringify(this.cart));
       this.updateCartCount();
     },
-
-    // Decrementa la quantità del piatto, ma non scende sotto 
     decrementQuantity(dish) {
+      // Decrementa la quantità del piatto, ma non scende sotto 1
       const cartItem = this.cart.find(item => item.id === dish.id);
       if (cartItem && cartItem.quantity > 1) {
         cartItem.quantity -= 1;
@@ -130,7 +150,10 @@ export default {
         this.$router.push('/cart'); // Reindirizza alla vista AppCart
       }
     }
+
+
   },
+
   computed: {
     // Calcola il totale dei prodotti inseriti nel carrello
     totalProducts() {
@@ -142,7 +165,9 @@ export default {
     }
   },
 }
+
 </script>
+
 
 
 <template>
