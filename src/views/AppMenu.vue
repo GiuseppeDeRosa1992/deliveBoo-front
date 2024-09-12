@@ -110,6 +110,9 @@ export default {
         this.cart.push({ ...dish, quantity: 1 });
       }
 
+      localStorage.setItem('restaurant_name', this.restaurantName);
+      localStorage.setItem('restaurant_slug', this.$route.params.restaurant_slug);
+
       // Salva il carrello nel localStorage
       localStorage.setItem('cart', JSON.stringify(this.cart));
       this.updateCartCount(); // Aggiorna il conteggio del carrello

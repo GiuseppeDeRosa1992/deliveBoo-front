@@ -6,6 +6,8 @@ export default {
     data() {
         return {
             cart: JSON.parse(localStorage.getItem('cart')) || [],
+            restaurantName: localStorage.getItem('restaurant_name') || 'Ristorante non disponibile', // Recupera il nome del ristorante
+            restaurantSlug: localStorage.getItem('restaurant_slug') || '', // Slug ristorante
             showPayment: false,
         };
     },
@@ -57,9 +59,17 @@ export default {
         },
         clearCart() {
             localStorage.removeItem('cart');
+            localStorage.removeItem('restaurant_name'); // Rimuovi anche il nome del ristorante
+            localStorage.removeItem('restaurant_slug'); // Rimuovi lo slug del ristorante
+            this.cart = [];
             this.cart = [];
             this.updateCartCount();
-        }
+        },
+        goToRestaurantMenu() {
+            if (this.restaurantSlug) {
+                this.$router.push(`/restaurants/${this.restaurantSlug}/menu`);
+            }
+        },
     },
 };
 
@@ -69,6 +79,10 @@ export default {
     <div class="app-cart bg-light py-4">
         <div class="container">
             <h2 class="pb-3 text-center">Riepilogo Ordine</h2>
+            <div class="d-flex justify-content-center align-items-center pb-3">
+                <button @click="goToRestaurantMenu" class="btn btn-outline-primary me-3">Torna al Menù</button>
+                <h3 class="pb-3">Stai ordinando presso: {{ restaurantName }}</h3>
+            </div> 
             <div class="cart-content bg-white rounded shadow">
                 <div v-if="cart.length === 0" class="text-center">
                     <p>Il carrello è vuoto.</p>
