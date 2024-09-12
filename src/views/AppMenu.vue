@@ -36,19 +36,7 @@ export default {
     getDishes() {
       const restaurantSlug = this.$route.params.restaurant_slug;
 
-      if (this.currentRestaurant && this.currentRestaurant !== restaurantSlug) {
-        if (this.cart.length > 0) {
-          // Mostra il modale di conferma solo se il carrello non è vuoto
-          this.pendingRestaurantSlug = restaurantSlug;
-          const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
-          confirmModal.show();
-        } else {
-          // Se il carrello è vuoto, carica direttamente i piatti del nuovo ristorante
-          this.loadDishes(restaurantSlug);
-        }
-        return;
-      }
-
+      // Carica i piatti direttamente, senza mostrare il modale
       this.loadDishes(restaurantSlug);
     },
 
@@ -57,7 +45,6 @@ export default {
       axios.get(`${this.base_url}/api/restaurants/${restaurantSlug}/dishes`)
         .then(response => {
           this.dishes = response.data.dishes;
-          console.log(this.dishes[0].visible);
         })
         .catch(error => {
           this.error = 'Errore nel caricamento dei piatti';
@@ -65,10 +52,10 @@ export default {
         });
 
       if (this.currentRestaurant && this.currentRestaurant !== restaurantSlug) {
-        this.clearCart();
+        // Non svuotare il carrello automaticamente, solo se si prova ad aggiungere un piatto
+        this.currentRestaurant = restaurantSlug;
       }
 
-      this.currentRestaurant = restaurantSlug;
       localStorage.setItem('currentRestaurant', restaurantSlug);
     },
 
@@ -91,14 +78,26 @@ export default {
 
 
     cancelRestaurantChange() {
-      // Ricarica i piatti del ristorante corrente
-      this.loadDishes(this.currentRestaurant);
-      this.pendingRestaurantSlug = null;
+      this.$router.push('/cart');  // Reindirizza alla pagina del carrello
       const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
       confirmModal.hide();
     },
 
+
     addToCart(dish) {
+      const restaurantSlugInCart = localStorage.getItem('restaurant_slug');
+
+      // Controlla se l'utente sta cercando di aggiungere piatti da un ristorante diverso
+      if (restaurantSlugInCart && restaurantSlugInCart !== this.$route.params.restaurant_slug) {
+        if (this.cart.length > 0) {
+          // Mostra l'avviso solo se c'è già un ristorante nel carrello
+          this.pendingRestaurantSlug = this.$route.params.restaurant_slug;
+          const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+          confirmModal.show();
+          return;  // Blocca l'aggiunta del piatto
+        }
+      }
+
       // Cerca se il piatto è già nel carrello
       const cartItem = this.cart.find(item => item.id === dish.id);
 
@@ -110,6 +109,7 @@ export default {
         this.cart.push({ ...dish, quantity: 1 });
       }
 
+      // Salva il nome e lo slug del ristorante nel localStorage
       localStorage.setItem('restaurant_name', this.restaurantName);
       localStorage.setItem('restaurant_slug', this.$route.params.restaurant_slug);
 
@@ -117,6 +117,7 @@ export default {
       localStorage.setItem('cart', JSON.stringify(this.cart));
       this.updateCartCount(); // Aggiorna il conteggio del carrello
     },
+
     removeFromCart(dish) {
       this.cart = this.cart.filter(item => item.id !== dish.id);
       localStorage.setItem('cart', JSON.stringify(this.cart));
@@ -215,7 +216,7 @@ export default {
           <div class="card cart-card">
             <div class="card-body">
               <h5 class="card-title fs-3 mb-3">Carrello</h5>
-              <h3 class="card-title m-0 py-2">Stai ordinando presso: {{ restaurantName }}</h3>
+              <!-- <h3 class="card-title m-0 py-2">Stai ordinando presso: {{ restaurantName }}</h3> -->
               <p class="card-text" v-if="cart.length === 0">Aggiungi piatti al carrello per visualizzare qui.</p>
               <div class="cart-items mb-0">
                 <div class="cart-list ps-0" v-if="cart.length > 0">
@@ -262,14 +263,15 @@ export default {
                 <p>Svuota il carrello per cambiare ristorante o completa l'ordine</p>
               </div>
               <div class="modal-footer d-flex flex-column align-items-center">
-                <button type="button" class="btn btn-primary" @click="cancelRestaurantChange">Completa
-                  l'ordine</button>
+                <button type="button" class="btn btn-primary" @click="cancelRestaurantChange">Completa l'ordine</button>
                 <button type="button" class="btn btn-secondary" @click="confirmRestaurantChange">Svuota il
                   carrello</button>
               </div>
             </div>
           </div>
         </div>
+
+
       </div>
     </div>
   </div>

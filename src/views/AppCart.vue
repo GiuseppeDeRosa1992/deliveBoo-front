@@ -80,10 +80,10 @@ export default {
         <div class="container">
             <div class="row align-items-center pb-3">
                 <div class="col-lg-2">
-                    <button @click="goToRestaurantMenu" class="btn btn-dark">Torna al Menù</button>
+                    <button v-if="cart.length > 0" @click="goToRestaurantMenu" class="btn btn-dark">Torna al Menù</button>
                 </div>
                 <div class="col-lg-8">
-                    <h2 class="text-center">Riepilogo Ordine - {{ restaurantName }}</h2>
+                    <h2 class="text-center">Riepilogo Ordine</h2>
                 </div>
                 <div class="col-lg-2"></div>
             </div>
