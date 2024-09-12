@@ -173,7 +173,7 @@ export default {
 <template>
   <div class="cont-main">
     <div class="container">
-      
+
       <h1 class="text-center my-5">{{ restaurantName }}</h1>
       <div class="row justify-content-between mt-5">
 
@@ -181,8 +181,8 @@ export default {
         <div class="col-12 col-md-8 mb-4">
           <div class="row justify-content-center">
             <template v-if="dishes.length > 0">
-              <div class="col-12 col-sm-6 col-md-4 mb-3" v-for="dish in dishes" :key="dish.id "v-show="dish.visible" >
-                <div  class="card dish-card" >
+              <div class="col-12 col-sm-6 col-md-4 mb-3" v-for="dish in dishes" :key="dish.id" v-show="dish.visible">
+                <div class="card dish-card">
                   <template v-if="!dish.image.startsWith('http')">
                     <img class="card-img-top dish-image" :src="base_url + '/storage/' + dish.image" alt="">
                   </template>
@@ -210,6 +210,7 @@ export default {
           <div class="card cart-card">
             <div class="card-body">
               <h5 class="card-title fs-3 mb-3">Carrello</h5>
+              <h3 class="card-title m-0 py-2">Stai ordinando presso: {{ restaurantName }}</h3>
               <p class="card-text" v-if="cart.length === 0">Aggiungi piatti al carrello per visualizzare qui.</p>
               <div class="cart-items mb-0">
                 <div class="cart-list ps-0" v-if="cart.length > 0">
