@@ -122,6 +122,8 @@ export default {
     clearCart() {
       this.cart = [];
       localStorage.setItem('cart', JSON.stringify(this.cart));
+      this.updateCartCount();
+
     },
     incrementQuantity(dish) {
       // Incrementa la quantità del piatto
