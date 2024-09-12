@@ -4,6 +4,7 @@ export default {
   data() {
     return {
       userEmail: localStorage.getItem('email') || 'email non disponibile',
+      restaurantName: localStorage.getItem('restaurant_name') || 'Nome non disponibile',
       total: localStorage.getItem('total') || 'prezzo non disponibile',
       dishes: JSON.parse(localStorage.getItem('dishes') || '[]'),
     };
@@ -39,7 +40,11 @@ export default {
 
         <!-- Dettagli ordine -->
         <div class="order-details mt-4">
-          <h5 class="mb-3">Dettagli del tuo ordine</h5>
+          <h5>Grazie per aver oridinato da:
+          </h5>
+          <h2 class="text-warning">{{ restaurantName }}</h2>
+
+          <h5 class="mb-3 pt-3">Dettagli del tuo ordine</h5>
           <ul class="list-group px-5">
             <li v-for="(dish, index) in dishes" :key="index" class="list-group-item d-flex justify-content-between">
               <span>{{ dish.name_dish }}</span>
