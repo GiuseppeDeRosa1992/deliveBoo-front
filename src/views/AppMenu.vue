@@ -202,7 +202,7 @@ export default {
 
       <div class="row justify-content-between mt-5">
         <div v-if="getCurrentRestaurant">
-          <h1>{{ getCurrentRestaurant.name }}</h1>
+          <h1 class="m-0 pb-4 text-center">Ristorante: {{ getCurrentRestaurant.name }}</h1>
         </div>
 
         <!-- Lista dei piatti -->
@@ -303,6 +303,10 @@ export default {
 
 <style scoped>
 /* Spazio extra tra l'header e il contenuto */
+
+h1 {
+  color: rgb(230, 126, 34)
+}
 
 .container {
   max-width: 1200px;
@@ -420,10 +424,6 @@ export default {
   padding: 0.75rem;
   font-size: 1rem;
   border-radius: 5px;
-}
-
-.text-center {
-  text-align: center;
 }
 
 .btn-danger {
