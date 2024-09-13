@@ -246,9 +246,10 @@ export default {
               <div class="cart-items mb-0">
                 <div class="cart-list ps-0" v-if="cart.length > 0">
 
+                  <h3 class="card-title m-0 py-2">Stai ordinando presso: {{ cart[0].cartRecordName }}
+                  </h3>
+
                   <div class="d-flex mb-2 cart-list-detail flex-column pb-2" v-for="dish in cart" :key="dish.id">
-                    <h3 class="card-title m-0 py-2">Stai ordinando presso: {{ dish.cartRecordName }}
-                    </h3>
                     <div class="mb-1 d-flex align-items-center justify-content-between">
                       <span class="fs-4 cart-name-dish">{{ dish.name }}</span>
                       <span class="ps-2 fw-bold">{{ dish.price }}€</span>

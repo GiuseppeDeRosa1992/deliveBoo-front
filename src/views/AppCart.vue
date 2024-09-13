@@ -80,10 +80,13 @@ export default {
         <div class="container">
             <div class="row align-items-center pb-3">
                 <div class="col-lg-2">
-                    <button v-if="cart.length > 0" @click="goToRestaurantMenu" class="btn btn-dark">Torna al Menù</button>
+                    <button v-if="cart.length > 0" @click="goToRestaurantMenu" class="btn btn-dark">Torna al
+                        Menù</button>
                 </div>
                 <div class="col-lg-8">
                     <h2 class="text-center">Riepilogo Ordine</h2>
+                    <h3 class="card-title m-0 py-2 text-center">Stai ordinando presso: {{ cart[0].cartRecordName }}
+                    </h3>
                 </div>
                 <div class="col-lg-2"></div>
             </div>
@@ -94,7 +97,6 @@ export default {
                 </div>
                 <div v-else>
                     <div class="cart-items mb-4">
-
 
                         <div class="cart-item row align-items-center py-3" v-for="dish in cart" :key="dish.id">
                             <div class="col-lg-2 col-md-2 col-sm-3 d-flex justify-content-between align-items-center">
