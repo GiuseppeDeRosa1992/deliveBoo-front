@@ -112,6 +112,7 @@ export default {
             :class="{ 'chip-selected': filtraRistorante.includes(type) }" @click="toggleType(type)">
             {{ type }}
           </div>
+          <h4 v-if="filteredRestaurants.length > 0">Ristoranti trovati: {{ this.filteredRestaurants.length }}</h4>
         </div>
 
       </div>
@@ -159,7 +160,7 @@ export default {
           </div>
         </template>
         <div v-if="filteredRestaurants.length === 0" class="pb-3">
-          <p class="my-3 fs-5">Purtroppo non è ancora disponibile un <br> ristorante con questa tipologia.</p>
+          <p class="my-3 fs-5">Nessun ristorante trovato per le tipologie selezionate</p>
         </div>
 
       </div>
