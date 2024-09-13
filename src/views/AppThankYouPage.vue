@@ -48,7 +48,7 @@ export default {
           <ul class="list-group px-5">
             <li v-for="(dish, index) in dishes" :key="index" class="list-group-item d-flex justify-content-between">
               <span>{{ dish.name_dish }}</span>
-              <span>{{ dish.price_dish }} € (Quantità: {{ dish.quantity }})</span>
+              <span>{{ dish.price_dish }} € (x: {{ dish.quantity }})</span>
             </li>
             <li class="list-group-item d-flex justify-content-between">
               <span class="fw-bold">Totale pagato</span>

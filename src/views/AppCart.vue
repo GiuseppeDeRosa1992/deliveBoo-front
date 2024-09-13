@@ -103,7 +103,7 @@ export default {
                             <div class="col-lg-10 col-md-10 col-sm-9">
                                 <div class="d-flex justify-content-between align-items-center pt-2">
                                     <span class="fs-4">{{ dish.name }}</span>
-                                    <span class="fs-4"> €{{ dish.price }}</span>
+                                    <span class="fs-4"> {{ dish.price }}€</span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mt-2">
                                     <span>
@@ -121,7 +121,7 @@ export default {
 
                         <div class="cart-totals border-top border-2 border-dark pt-3 mt-4 text-center">
                             <p class="mb-1 fs-5">Totale prodotti: {{ totalProducts }}</p>
-                            <p class="fs-4">Totale da pagare: €{{ totalPrice }}</p>
+                            <p class="fs-4">Totale da pagare: {{ totalPrice }}€</p>
                         </div>
                         <div class="text-center mt-4">
                             <button v-if="cart.length > 0" class="btn btn-success" @click="showPayment = true">Procedi
