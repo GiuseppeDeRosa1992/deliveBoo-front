@@ -225,7 +225,7 @@ export default {
                     <p class="card-text">{{ dish.price }}€</p>
                     <p class="card-description">{{ dish.description }}</p>
 
-                    <button class="btn btn-primary" @click="addToCart(dish)">Aggiungi al Carrello</button>
+                    <button class="btn btn-primary rounded" @click="addToCart(dish)">Aggiungi al Carrello</button>
                   </div>
                 </div>
               </div>
@@ -238,7 +238,7 @@ export default {
 
         <!-- Card del carrello -->
         <div class="col-12 col-md-4">
-          <div class="card cart-card">
+          <div class="card cart-card position-sticky top-0 mb-5">
             <div class="card-body">
               <h5 class="card-title fs-3 mb-3">Carrello</h5>
 
