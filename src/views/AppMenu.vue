@@ -219,7 +219,7 @@ export default {
                   </template>
                   <div class="card-body">
                     <h5 class="card-title">{{ dish.name }}</h5>
-                    <p class="card-text">€{{ dish.price }}</p>
+                    <p class="card-text">{{ dish.price }}€</p>
                     <p class="card-description">{{ dish.description }}</p>
 
                     <button class="btn btn-primary" @click="addToCart(dish)">Aggiungi al Carrello</button>
@@ -246,7 +246,7 @@ export default {
                   <div class="d-flex mb-2 cart-list-detail flex-column pb-2" v-for="dish in cart" :key="dish.id">
                     <div class="mb-1 d-flex align-items-center justify-content-between">
                       <span class="fs-4 cart-name-dish">{{ dish.name }}</span>
-                      <span class="ps-2 fw-bold">€{{ dish.price }}</span>
+                      <span class="ps-2 fw-bold">{{ dish.price }}€</span>
                     </div>
                     <div class="d-flex align-items-center justify-content-between pb-2">
                       <div class="quantity-controls ms-0">
@@ -266,7 +266,7 @@ export default {
               <!-- Totale dei prodotti e del prezzo -->
               <div v-if="cart.length > 0" class="cart-totals border-top border-2 border-dark pt-2">
                 <p class="mb-1">Totale prodotti: {{ totalProducts }}</p>
-                <p>Totale da pagare: €{{ totalPrice }}</p>
+                <p>Totale da pagare: {{ totalPrice }}€</p>
               </div>
               <button class="btn btn-success" v-if="cart.length > 0" @click="proceedToOrder">Procedi all'ordine</button>
             </div>
