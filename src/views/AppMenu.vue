@@ -13,6 +13,7 @@ export default {
       dishes: [],
       error: null,
       cart: JSON.parse(localStorage.getItem('cart')) || [],
+      cartName: JSON.parse(localStorage.getItem('restaurant')) || [],
       currentRestaurant: localStorage.getItem('currentRestaurant') || null,
       base_url: 'http://127.0.0.1:8000',
       showPayment: false, // Variabile per mostrare il modulo di pagamento
@@ -121,7 +122,7 @@ export default {
         cartItem.quantity += 1;
       } else {
         // Se il piatto non è nel carrello, aggiungilo con quantità 1
-        this.cart.push({ ...dish, quantity: 1 });
+        this.cart.push({ ...dish, quantity: 1, cartRecordName: this.restaurantName });
       }
 
       // Salva il nome e lo slug del ristorante nel localStorage
@@ -130,6 +131,8 @@ export default {
 
       // Salva il carrello nel localStorage
       localStorage.setItem('cart', JSON.stringify(this.cart));
+      // Salva il nome nel localStorage
+      localStorage.setItem('restaurant', JSON.stringify(this.cartName));
       this.updateCartCount(); // Aggiorna il conteggio del carrello
     },
 
@@ -238,12 +241,14 @@ export default {
           <div class="card cart-card">
             <div class="card-body">
               <h5 class="card-title fs-3 mb-3">Carrello</h5>
-              <!-- <h3 class="card-title m-0 py-2">Stai ordinando presso: {{ restaurantName }}</h3> -->
+
               <p class="card-text" v-if="cart.length === 0">Aggiungi piatti al carrello per visualizzare qui.</p>
               <div class="cart-items mb-0">
                 <div class="cart-list ps-0" v-if="cart.length > 0">
 
                   <div class="d-flex mb-2 cart-list-detail flex-column pb-2" v-for="dish in cart" :key="dish.id">
+                    <h3 class="card-title m-0 py-2">Stai ordinando presso: {{ dish.cartRecordName }}
+                    </h3>
                     <div class="mb-1 d-flex align-items-center justify-content-between">
                       <span class="fs-4 cart-name-dish">{{ dish.name }}</span>
                       <span class="ps-2 fw-bold">{{ dish.price }}€</span>
